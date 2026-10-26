@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プログラマーの仕事</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* Layout: 「仕事の地図」。ヒーロー（左に説明・右に4項目の入口）→ 小項目ごとに、カード・比較カード・道のり図で見せる */
+/* 未経験の人に見せる資料なので、明るい1テーマに固定する */
+:root {
+  color-scheme: light;
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --ink: #1f2a44;
+  --muted: #5d6880;
+  --line: #e3e8f2;
+  --primary: #3b5bdb;
+  --primary-soft: #edf1ff;
+  --warm: #f76707;
+  --warm-soft: #fff1e5;
+  --c1: #3b5bdb; --c1s: #edf1ff;
+  --c2: #0ca678; --c2s: #e3f8f0;
+  --c3: #e67700; --c3s: #fff3db;
+  --c4: #7048e8; --c4s: #f1ecff;
+  --c5: #d6336c; --c5s: #ffedf3;
+  --c6: #1098ad; --c6s: #e3f6f9;
+  --shadow: 0 1px 2px rgba(31, 42, 68, .05), 0 8px 24px rgba(31, 42, 68, .06);
+  --font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.35; margin: 0; }
+p { margin: 0; }
+.ic { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ── 上部：章の進み具合 ── */
+.topbar { padding-block: 20px; }
+.steps { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+.steps li {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--muted); padding: 6px 14px 6px 6px;
+  border-radius: 999px; background: var(--surface); border: 1px solid var(--line);
+}
+.steps li b {
+  display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--line); color: var(--muted); font-family: var(--font-display); font-size: 12px;
+}
+.steps li.now { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
+.steps li.now b { background: rgba(255,255,255,.22); color: #fff; }
+
+/* ── ヒーロー ── */
+.hero {
+  display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center;
+  padding-block: 40px 64px;
+}
+.eyebrow { font-family: var(--font-display); font-weight: 700; color: var(--primary); font-size: 15px; letter-spacing: .08em; }
+.hero h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 900; margin-top: 8px; letter-spacing: .01em; }
+.hero .lead { margin-top: 18px; font-size: 17px; color: var(--muted); max-width: 30em; }
+.map { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.map a {
+  display: grid; gap: 10px; padding: 20px; border-radius: 18px; background: var(--surface);
+  box-shadow: var(--shadow); color: var(--ink); text-decoration: none; border: 2px solid transparent;
+  transition: transform .15s ease, border-color .15s ease;
+}
+.map a:hover, .map a:focus-visible { transform: translateY(-2px); border-color: var(--primary-soft); outline: none; }
+.map .tile { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; }
+.map .no { font-family: var(--font-display); font-size: 13px; color: var(--muted); font-weight: 700; }
+.map strong { font-family: var(--font-display); font-size: 19px; line-height: 1.3; }
+.map .q { font-size: 14px; color: var(--muted); }
+
+/* ── セクション共通 ── */
+.section { padding-block: 56px; }
+.section + .section { border-top: 1px solid var(--line); }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+.sec-head .left { display: grid; gap: 6px; }
+.badge {
+  justify-self: start; font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  color: var(--primary); background: var(--primary-soft); padding: 2px 12px; border-radius: 999px;
+}
+.sec-head h2 { font-size: clamp(26px, 3.2vw, 34px); font-weight: 900; }
+.sec-head .q { color: var(--muted); font-size: 16px; }
+.sec-head .aside { color: var(--muted); font-size: 14px; max-width: 26em; }
+
+/* ── 1-1 分野 ── */
+.fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.field {
+  background: var(--surface); border-radius: 18px; padding: 24px; box-shadow: var(--shadow);
+  display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px; min-width: 0;
+}
+.field .tile { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; }
+.field .tile .ic { width: 28px; height: 28px; }
+.field h3 { font-size: 21px; font-weight: 700; margin-top: 4px; }
+.field .ex { font-size: 15px; color: var(--muted); }
+.langs { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.langs span { font-size: 13px; font-weight: 500; padding: 2px 10px; border-radius: 6px; background: var(--bg); color: var(--ink); }
+.langs .lbl { background: none; color: var(--muted); padding-left: 0; font-weight: 400; }
+
+/* ── 1-2 職種 ── */
+.roles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.role {
+  background: var(--surface); border-radius: 18px; padding: 24px 18px; box-shadow: var(--shadow);
+  display: grid; justify-items: center; text-align: center; gap: 10px; align-content: start; min-width: 0;
+}
+.role .avatar {
+  width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--primary-soft); color: var(--primary);
+}
+.role .avatar .ic { width: 30px; height: 30px; }
+.role h3 { font-size: 18px; }
+.role .full { font-size: 12px; color: var(--muted); margin-top: -8px; }
+.role p.desc { font-size: 14px; color: var(--muted); text-align: left; }
+
+.tip {
+  margin-top: 20px; display: flex; gap: 12px; align-items: flex-start;
+  background: var(--surface); border-radius: 14px; padding: 14px 18px; font-size: 15px; color: var(--muted);
+  border: 1px solid var(--line);
+}
+.tip .ic { color: var(--primary); width: 22px; height: 22px; margin-top: 2px; }
+
+/* ── 1-3 会社での働き方 ── */
+.companies { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.company {
+  background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden;
+  display: grid; grid-template-rows: auto 1fr; min-width: 0;
+}
+.company .top { padding: 22px 22px 18px; display: grid; gap: 8px; }
+.company .head { display: flex; align-items: center; gap: 10px; }
+.company .head .tile { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); }
+.company .head .tile.fl { background: var(--warm-soft); color: var(--warm); }
+.company h3 { font-size: 18px; white-space: nowrap; }
+.company .what { font-size: 15px; color: var(--ink); }
+.company .body { padding: 16px 22px 22px; background: #fafbfe; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+.company .body .ease { margin-top: auto; }
+.pt { display: grid; grid-template-columns: 20px 1fr; gap: 8px; font-size: 14px; color: var(--muted); }
+.pt .mark { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; margin-top: 2px; }
+.pt.good .mark { background: var(--c2s); color: var(--c2); }
+.pt.care .mark { background: var(--c3s); color: var(--c3); }
+.ease { display: grid; gap: 6px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--muted); }
+.ease .val { display: flex; align-items: center; gap: 10px; }
+.dots { display: flex; gap: 4px; }
+.dots i { width: 22px; height: 8px; border-radius: 4px; background: var(--line); }
+.dots i.on { background: var(--primary); }
+.ease strong { font-size: 14px; color: var(--ink); }
+
+/* ── 1-4 フリーランス ── */
+.free-intro { font-size: 18px; max-width: 46em; margin-bottom: 32px; }
+.free-intro em { font-style: normal; font-weight: 700; color: var(--warm); background: linear-gradient(transparent 62%, var(--warm-soft) 62%); }
+
+.road {
+  background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); padding: 36px 36px 32px;
+  display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 0; position: relative;
+}
+.road::before {
+  content: ""; position: absolute; left: 48px; right: 48px; top: 64px; height: 4px; border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 14px, transparent 14px 22px);
+}
+.stop { position: relative; display: grid; gap: 10px; justify-items: start; padding-right: 20px; }
+.stop .pin {
+  width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--surface); border: 4px solid var(--line); color: var(--muted); position: relative; z-index: 1;
+}
+.stop .pin .ic { width: 26px; height: 26px; }
+.stop.s1 .pin { border-color: var(--c6); color: var(--c6); }
+.stop.s2 .pin { border-color: var(--primary); color: var(--primary); }
+.stop .when { font-size: 13px; color: var(--muted); font-weight: 700; letter-spacing: .04em; }
+.stop h3 { font-size: 20px; }
+.stop p { font-size: 14px; color: var(--muted); }
+.forks { display: grid; gap: 8px; width: 100%; }
+.fork {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px;
+  background: var(--bg); font-size: 15px; font-weight: 500;
+}
+.fork .ic { width: 20px; height: 20px; color: var(--muted); }
+.fork.hl { background: var(--warm-soft); color: var(--ink); font-weight: 700; box-shadow: inset 0 0 0 2px var(--warm); }
+.fork.hl .ic { color: var(--warm); }
+
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 28px; }
+.vs .card { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 24px 26px; }
+.vs .card h3 { font-size: 20px; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.vs .card h3 .tile { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; }
+.vs .emp h3 .tile { background: var(--primary-soft); color: var(--primary); }
+.vs .fre h3 .tile { background: var(--warm-soft); color: var(--warm); }
+.vs .fre { box-shadow: var(--shadow), inset 0 0 0 2px var(--warm-soft); }
+.rows { display: grid; gap: 0; margin: 0; }
+.rows div { display: grid; grid-template-columns: 5.5em 1fr; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); }
+.rows dt { font-size: 13px; color: var(--muted); font-weight: 700; padding-top: 2px; }
+.rows dd { margin: 0; font-size: 15px; }
+
+.bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+.ways { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 22px 26px; display: grid; gap: 12px; align-content: start; }
+.ways h3 { font-size: 17px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips span { font-size: 14px; padding: 6px 14px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }
+.ways .small { font-size: 13px; color: var(--muted); }
+
+.talk {
+  position: relative; border-radius: 18px; padding: 22px 26px; background: var(--warm-soft);
+  display: grid; gap: 8px; align-content: start;
+}
+.talk .who { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; color: var(--warm); font-size: 15px; }
+.talk .who .ic { width: 22px; height: 22px; }
+.talk p { font-size: 15px; }
+
+.next-ch {
+  margin-block: 24px 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 22px 28px; border-radius: 18px; background: var(--primary); color: #fff;
+}
+.next-ch .lbl { font-size: 13px; opacity: .8; }
+.next-ch strong { font-family: var(--font-display); font-size: 20px; display: block; }
+.next-ch .ic { width: 28px; height: 28px; }
+
+/* 狭い画面では段を減らす（主対象はPC表示） */
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; }
+  .fields { grid-template-columns: repeat(2, 1fr); }
+  .roles { grid-template-columns: repeat(3, 1fr); }
+  .companies { grid-template-columns: repeat(2, 1fr); }
+  .road { grid-template-columns: 1fr; gap: 24px; }
+  .road::before { display: none; }
+  .vs, .bottom { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .fields, .roles, .companies, .map { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .map a { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4v1a3 3 0 0 1-5.2 2L14 13h-4l-1.8 2A3 3 0 0 1 3 13v-1a4 4 0 0 1 4-4z"/><path d="M8 10.5v3M6.5 12h3M16 11h.01M17.5 13h.01"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7" rx=".5"/><rect x="11" y="7" width="3" height="11" rx=".5"/><rect x="16" y="13" width="3" height="5" rx=".5"/></symbol>
+  <symbol id="i-plan" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM8.5 11h7M8.5 15h5"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 6l-3 12"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/><path d="M8 7.5h.01M8 16.5h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4M8 14h3"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></symbol>
+  <symbol id="i-go" viewBox="0 0 24 24"><path d="M3 12h11M10 8l4 4-4 4"/><rect x="16" y="5" width="5" height="14" rx="1"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-4-4M20 16H6l4 4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-handshake" viewBox="0 0 24 24"><path d="M3 11l4-4 4 2 3-2 7 4"/><path d="M3 11l6 6a1.5 1.5 0 0 0 2-2M11 15l1.5 1.5a1.5 1.5 0 0 0 2-2M14 13l1.5 1.5a1.5 1.5 0 0 0 2-2L21 11"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18z"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<div class="wrap">
+  <div class="topbar">
+    <ol class="steps" aria-label="資料の章">
+      <li class="now"><b>1</b>プログラマーの仕事</li>
+      <li><b>2</b>Webサービスができるまで</li>
+      <li><b>3</b>必要な知識</li>
+      <li><b>4</b>転職までの道のり</li>
+    </ol>
+  </div>
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">CHAPTER 1</p>
+      <h1>プログラマーの仕事</h1>
+      <p class="lead">プログラマーと一口に言っても、作るもの・担当すること・働き方はさまざまです。まずは、どんな仕事があるのかを地図のように眺めてみましょう。</p>
+    </div>
+    <nav class="map" aria-label="この章で見ること">
+      <a href="#fields">
+        <span class="tile" style="background:var(--c1s);color:var(--c1)"><svg class="ic"><use href="#i-globe"/></svg></span>
+        <span class="no">1-1</span><strong>分野</strong><span class="q">何を作る仕事か</span>
+      </a>
+      <a href="#roles">
+        <span class="tile" style="background:var(--c2s);color:var(--c2)"><svg class="ic"><use href="#i-user"/></svg></span>
+        <span class="no">1-2</span><strong>職種</strong><span class="q">何を担当するか</span>
+      </a>
+      <a href="#company">
+        <span class="tile" style="background:var(--c4s);color:var(--c4)"><svg class="ic"><use href="#i-building"/></svg></span>
+        <span class="no">1-3</span><strong>会社での働き方</strong><span class="q">どこで働くか</span>
+      </a>
+      <a href="#freelance">
+        <span class="tile" style="background:var(--warm-soft);color:var(--warm)"><svg class="ic"><use href="#i-bag"/></svg></span>
+        <span class="no">1-4</span><strong>フリーランス</strong><span class="q">会社に属さない働き方</span>
+      </a>
+    </nav>
+  </header>
+</div>
+
+<!-- 1-1 -->
+<section class="section" id="fields">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">1-1</span>
+        <h2>分野</h2>
+        <p class="q">何を作る仕事か</p>
+      </div>
+      <p class="aside">同じプログラマーでも、作るものによって使う言語や道具が変わります。</p>
+    </div>
+    <div class="fields">
+      <article class="field">
+        <span class="tile" style="background:var(--c1s);color:var(--c1)"><svg class="ic"><use href="#i-globe"/></svg></span>
+        <h3>Web</h3>
+        <p class="ex">ネットショップ、予約サイト、SNS など、ブラウザで使うサービス</p>
+        <div class="langs"><span class="lbl">言語</span><span>JavaScript</span><span>PHP</span><span>Ruby</span><span>Python</span></div>
+      </article>
+      <article class="field">
+        <span class="tile" style="background:var(--c2s);color:var(--c2)"><svg class="ic"><use href="#i-phone"/></svg></span>
+        <h3>スマホアプリ</h3>
+        <p class="ex">iPhone や Android にインストールして使うアプリ</p>
+        <div class="langs"><span class="lbl">言語</span><span>Swift</span><span>Kotlin</span><span>Dart</span></div>
+      </article>
+      <article class="field">
+        <span class="tile" style="background:var(--c3s);color:var(--c3)"><svg class="ic"><use href="#i-building"/></svg></span>
+        <h3>業務システム</h3>
+        <p class="ex">勤怠管理、在庫管理、銀行のシステムなど、会社の仕事を支えるシステム</p>
+        <div class="langs"><span class="lbl">言語</span><span>Java</span><span>C#</span><span>COBOL</span></div>
+      </article>
+      <article class="field">
+        <span class="tile" style="background:var(--c4s);color:var(--c4)"><svg class="ic"><use href="#i-chip"/></svg></span>
+        <h3>組み込み</h3>
+        <p class="ex">家電、自動車、工場の機械の中で動くプログラム</p>
+        <div class="langs"><span class="lbl">言語</span><span>C</span><span>C++</span></div>
+      </article>
+      <article class="field">
+        <span class="tile" style="background:var(--c5s);color:var(--c5)"><svg class="ic"><use href="#i-game"/></svg></span>
+        <h3>ゲーム</h3>
+        <p class="ex">家庭用ゲーム機、スマホゲーム、PCゲーム</p>
+        <div class="langs"><span class="lbl">言語</span><span>C#</span><span>C++</span></div>
+      </article>
+      <article class="field">
+        <span class="tile" style="background:var(--c6s);color:var(--c6)"><svg class="ic"><use href="#i-chart"/></svg></span>
+        <h3>データ・AI</h3>
+        <p class="ex">売上の分析、需要の予測、AIを使った仕組みづくり</p>
+        <div class="langs"><span class="lbl">言語</span><span>Python</span><span>SQL</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 1-2 -->
+<section class="section" id="roles">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">1-2</span>
+        <h2>職種</h2>
+        <p class="q">何を担当するか</p>
+      </div>
+      <p class="aside">どの分野でも、1つのものを作るのに、いろいろな役割の人が関わります。</p>
+    </div>
+    <div class="roles">
+      <article class="role">
+        <span class="avatar"><svg class="ic"><use href="#i-plan"/></svg></span>
+        <h3>SE</h3><span class="full">システムエンジニア</span>
+        <p class="desc">要望を聞いて、何を作るかを決め、設計する</p>
+      </article>
+      <article class="role">
+        <span class="avatar"><svg class="ic"><use href="#i-code"/></svg></span>
+        <h3>プログラマー</h3><span class="full">PG</span>
+        <p class="desc">設計をもとにコードを書き、動くものを作る</p>
+      </article>
+      <article class="role">
+        <span class="avatar"><svg class="ic"><use href="#i-server"/></svg></span>
+        <h3>インフラ</h3><span class="full">インフラエンジニア</span>
+        <p class="desc">サーバーやネットワークを用意し、止まらないように守る</p>
+      </article>
+      <article class="role">
+        <span class="avatar"><svg class="ic"><use href="#i-shield"/></svg></span>
+        <h3>QA</h3><span class="full">テストエンジニア</span>
+        <p class="desc">不具合がないかを確かめ、品質を保つ</p>
+      </article>
+      <article class="role">
+        <span class="avatar"><svg class="ic"><use href="#i-cal"/></svg></span>
+        <h3>PM</h3><span class="full">プロジェクトマネージャー</span>
+        <p class="desc">予算・人・スケジュールを管理し、完成まで導く</p>
+      </article>
+    </div>
+    <p class="tip"><svg class="ic"><use href="#i-info"/></svg>呼び方や担当の範囲は会社によって違います。小さな会社では、1人が何役もこなすこともあります。</p>
+  </div>
+</section>
+
+<!-- 1-3 -->
+<section class="section" id="company">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">1-3</span>
+        <h2>会社での働き方</h2>
+        <p class="q">どこで働くか</p>
+      </div>
+      <p class="aside">同じ「エンジニアとして会社で働く」でも、会社の形によって仕事の中身が変わります。</p>
+    </div>
+    <div class="companies">
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-home"/></svg></span><h3>自社開発</h3></div>
+          <p class="what">自分の会社のサービスを作り、育てる</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>1つのサービスにじっくり関われる</p>
+          <p class="pt care"><span class="mark">！</span>人気が高く、未経験の採用枠は少ない</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span><strong>入りにくい</strong></span></div>
+        </div>
+      </article>
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-box"/></svg></span><h3>受託開発</h3></div>
+          <p class="what">お客さんから頼まれたシステムを作って納める</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>いろいろな業界・システムに関われる</p>
+          <p class="pt care"><span class="mark">！</span>納期に追われやすい</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><strong>ふつう</strong></span></div>
+        </div>
+      </article>
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-go"/></svg></span><h3>SES</h3></div>
+          <p class="what">お客さんの会社のチームに入り、開発を手伝う</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>未経験の求人が多く、入り口になりやすい</p>
+          <p class="pt care"><span class="mark">！</span>案件によっては開発の経験が積めない。会社選びが大事</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><strong>入りやすい</strong></span></div>
+        </div>
+      </article>
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-gear"/></svg></span><h3>社内SE</h3></div>
+          <p class="what">一般企業の中で、社内のITを担当する</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>働き方が安定しやすい</p>
+          <p class="pt care"><span class="mark">！</span>経験者の採用が中心。開発より運用・調整が多いことも</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span><strong>入りにくい</strong></span></div>
+        </div>
+      </article>
+    </div>
+    <p class="tip"><svg class="ic"><use href="#i-info"/></svg>入りやすさは目安です。地域や時期、会社によって変わります。</p>
+  </div>
+</section>
+
+<!-- 1-4 -->
+<section class="section" id="freelance">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">1-4</span>
+        <h2>フリーランスの位置づけ</h2>
+        <p class="q">会社に属さない働き方</p>
+      </div>
+    </div>
+
+    <p class="free-intro">フリーランスは、会社に雇われず、仕事ごとに契約して働くエンジニアです。仕事の取り方によって、働き方が変わります。</p>
+
+    <div class="companies">
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile fl"><svg class="ic"><use href="#i-handshake"/></svg></span><h3>エージェント経由</h3></div>
+          <p class="what">エージェントに案件を紹介してもらい、企業のチームに参加する</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>案件を探してもらえて、単価も高め</p>
+          <p class="pt care"><span class="mark">！</span>実務経験を条件にした案件がほとんど</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span><strong>入りにくい</strong></span></div>
+        </div>
+      </article>
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile fl"><svg class="ic"><use href="#i-cloud"/></svg></span><h3>クラウドソーシング</h3></div>
+          <p class="what">クラウドソーシングのサイトで、小さな仕事を受ける</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>実績がなくても応募でき、小さく始められる</p>
+          <p class="pt care"><span class="mark">！</span>単価が低く、応募者も多い。これだけで生活するのは難しい</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><strong>入りやすい</strong></span></div>
+        </div>
+      </article>
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile fl"><svg class="ic"><use href="#i-doc"/></svg></span><h3>直接契約</h3></div>
+          <p class="what">企業や個人から、直接仕事を受ける</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>間に入る会社がないぶん、単価が高い</p>
+          <p class="pt care"><span class="mark">！</span>営業・見積もり・契約・請求を自分でやる</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span><strong>入りにくい</strong></span></div>
+        </div>
+      </article>
+      <article class="company">
+        <div class="top">
+          <div class="head"><span class="tile fl"><svg class="ic"><use href="#i-users"/></svg></span><h3>知人からの紹介</h3></div>
+          <p class="what">元の同僚や知り合いの会社から、仕事を頼まれる</p>
+        </div>
+        <div class="body">
+          <p class="pt good"><span class="mark">＋</span>信頼があるので、話が進みやすい</p>
+          <p class="pt care"><span class="mark">！</span>人とのつながりが必要。経験を積んでからの話になりやすい</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span><strong>入りにくい</strong></span></div>
+        </div>
+      </article>
+    </div>
+    <p class="tip"><svg class="ic"><use href="#i-info"/></svg>会社員と違い、仕事探し・税金・保険の手続きも自分でやります。収入の上限は高いですが、仕事が途切れると収入も止まります。</p>
+
+    <div class="talk" style="margin-top:18px">
+      <span class="who"><svg class="ic"><use href="#i-chat"/></svg>現役フリーランスの体験談</span>
+      <p>どの方法で仕事を取っているか、良かったこと・大変なことを、その場で話します。</p>
+    </div>
+
+    <div class="next-ch">
+      <div><span class="lbl">次の章</span><strong>2. Webサービスができるまで</strong></div>
+      <svg class="ic"><use href="#i-arrow"/></svg>
+    </div>
+  </div>
+</section>
+</body>
+</html>
