@@ -735,7 +735,7 @@ a.brand:hover { color: var(--primary); }
 // 章の最初と最後では、前後の章へ移る（まだない章は出さない）
 const chapters = {
   prev: { href: 'chapter1.html#summary', lbl: '前の章', to: '1. プログラマーの仕事' },
-  next: null,
+  next: { href: 'chapter3.html', lbl: '次の章', to: '3. 必要な知識' },
 };
 const panels = [...document.querySelectorAll('.panel')];
 const links = [...document.querySelectorAll('.side a')];
