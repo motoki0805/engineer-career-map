@@ -40,6 +40,7 @@ body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.75;
+  word-break: auto-phrase; /* 日本語を文節で折り返し、単語の途中で改行しない */
 }
 h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.35; margin: 0; }
 p { margin: 0; }
@@ -136,13 +137,50 @@ p { margin: 0; }
 }
 .tip .ic { color: var(--primary); width: 22px; height: 22px; margin-top: 2px; }
 
+/* ── AIで変わったこと（1-2と1-3のあいだ。小項目ではなく、働き方を見る前の前提） ── */
+.badge.ai { color: var(--c4); background: var(--c4s); }
+.shifts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.shift {
+  background: var(--surface); border-radius: 18px; padding: 24px; box-shadow: var(--shadow);
+  display: grid; grid-template-rows: auto auto 1fr; gap: 10px; min-width: 0;
+}
+.shift .head { display: flex; align-items: center; gap: 12px; }
+.shift .tile { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--c4s); color: var(--c4); }
+.shift .kind { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--c4); letter-spacing: .04em; }
+.shift h3 { font-size: 20px; }
+.shift p { font-size: 15px; color: var(--muted); }
+.shift p b { color: var(--ink); font-weight: 700; }
+
+.facts {
+  margin-top: 18px; background: var(--surface); border-radius: 18px; box-shadow: var(--shadow);
+  padding: 24px 26px; display: grid; grid-template-columns: 1fr 17em; gap: 28px; align-items: center;
+}
+.facts h3 { font-size: 17px; }
+.facts .ask { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.bar { display: flex; gap: 2px; margin-top: 14px; height: 40px; border-radius: 8px; overflow: hidden; }
+.bar span {
+  display: flex; align-items: center; padding-left: 12px; font-size: 14px; font-weight: 700; white-space: nowrap;
+}
+.bar .yes { background: var(--primary); color: #fff; }
+.bar .maybe { background: #b9c6f5; color: var(--ink); }
+.bar .no { background: var(--line); color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 13px; color: var(--muted); }
+.legend span { display: flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; }
+.facts .side { border-left: 1px dashed var(--line); padding-left: 24px; display: grid; gap: 4px; }
+.facts .side .num { font-family: var(--font-display); font-weight: 900; font-size: 34px; color: var(--primary); line-height: 1.2; }
+.facts .side p { font-size: 14px; color: var(--muted); }
+.facts .side p b { color: var(--ink); }
+.src { margin-top: 12px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+
 /* ── 1-3 会社での働き方 ── */
 .companies { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .company {
   background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden;
   display: grid; grid-template-rows: auto 1fr; min-width: 0;
+  grid-row: span 2; grid-template-rows: subgrid; /* 説明の行数が違っても、下の段の高さをカード間でそろえる */
 }
-.company .top { padding: 22px 22px 18px; display: grid; gap: 8px; }
+.company .top { padding: 22px 22px 18px; display: grid; gap: 8px; align-content: start; }
 .company .head { display: flex; align-items: center; gap: 10px; }
 .company .head .tile { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); }
 .company .head .tile.fl { background: var(--warm-soft); color: var(--warm); }
@@ -234,6 +272,8 @@ p { margin: 0; }
   .fields { grid-template-columns: repeat(2, 1fr); }
   .roles { grid-template-columns: repeat(3, 1fr); }
   .companies { grid-template-columns: repeat(2, 1fr); }
+  .shifts, .facts { grid-template-columns: 1fr; }
+  .facts .side { border-left: 0; padding-left: 0; border-top: 1px dashed var(--line); padding-top: 16px; }
   .road { grid-template-columns: 1fr; gap: 24px; }
   .road::before { display: none; }
   .vs, .bottom { grid-template-columns: 1fr; }
@@ -273,6 +313,9 @@ p { margin: 0; }
   <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></symbol>
   <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-door" viewBox="0 0 24 24"><path d="M5 21V4.5A1.5 1.5 0 0 1 6.5 3h11A1.5 1.5 0 0 1 19 4.5V21M3 21h18"/><path d="M15 12h.01"/></symbol>
 </svg>
 
 <div class="wrap">
@@ -289,7 +332,7 @@ p { margin: 0; }
     <div>
       <p class="eyebrow">CHAPTER 1</p>
       <h1>プログラマーの仕事</h1>
-      <p class="lead">プログラマーと一口に言っても、作るもの・担当すること・働き方はさまざまです。まずは、どんな仕事があるのかを地図のように眺めてみましょう。</p>
+      <p class="lead">プログラマーと一口に言っても、作るもの・担当すること・働き方はさまざまです。まずは、どんな仕事があるのかを地図のように眺めてみましょう。AIの登場で変わってきたことも、あわせて見ていきます。</p>
     </div>
     <nav class="map" aria-label="この章で見ること">
       <a href="#fields">
@@ -406,6 +449,61 @@ p { margin: 0; }
   </div>
 </section>
 
+<!-- AIで変わったこと -->
+<section class="section" id="ai">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge ai">AIで変わったこと</span>
+        <h2>AIの登場で、何が変わった？</h2>
+        <p class="q">働き方を見る前に、押さえておきたいこと</p>
+      </div>
+      <p class="aside">ここ数年で、AIがコードを書けるようになりました。仕事がなくなったわけではありませんが、求められることは変わってきています。</p>
+    </div>
+    <div class="shifts">
+      <article class="shift">
+        <div class="head"><span class="tile"><svg class="ic"><use href="#i-spark"/></svg></span><span class="kind">変わったこと</span></div>
+        <h3>簡単なコードは、AIが書く</h3>
+        <p>仕事にAIを取り入れている会社は約6割。<b>指示どおりにコードを書くだけ</b>の役割は、必要かどうか見直されつつあります。</p>
+      </article>
+      <article class="shift">
+        <div class="head"><span class="tile"><svg class="ic"><use href="#i-bulb"/></svg></span><span class="kind">求められること</span></div>
+        <h3>考えて、確かめる力</h3>
+        <p>お客さんのやりたいことを、どう形にするか考える力。AIが書いたものが正しいか確かめる力。AIを道具として使いこなす力。</p>
+      </article>
+      <article class="shift">
+        <div class="head"><span class="tile"><svg class="ic"><use href="#i-door"/></svg></span><span class="kind">変わらないこと</span></div>
+        <h3>未経験の入り口は、まだある</h3>
+        <p>経験者を採りにくいため、未経験の人に目を向ける会社は今も多くあります。入り口になっているのは、<b>SIer・SES</b>などシステム開発の会社です。</p>
+      </article>
+    </div>
+
+    <div class="facts">
+      <div>
+        <h3>未経験の人を採用している会社</h3>
+        <p class="ask">IT人材を採用する会社の担当者1,000人に、「エンジニア未経験の人（新卒を除く）を採用しているか」を聞いた結果</p>
+        <div class="bar" role="img" aria-label="採用している28.4%、検討中45.0%、採用していない26.6%">
+          <span class="yes" style="flex:28.4" title="採用している 28.4%">28.4%</span>
+          <span class="maybe" style="flex:45.0" title="検討中 45.0%">45.0%</span>
+          <span class="no" style="flex:26.6" title="採用していない 26.6%">26.6%</span>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i style="background:var(--primary)"></i>採用している</span>
+          <span><i style="background:#b9c6f5"></i>検討中</span>
+          <span><i style="background:var(--line)"></i>採用していない</span>
+        </div>
+      </div>
+      <div class="side">
+        <span class="num">49.2%</span>
+        <p><b>SIer・SES</b>などシステム開発の会社では、半数近くが未経験の人を採用している（業態別で最も高い）</p>
+      </div>
+    </div>
+    <p class="src">出典：レバテック「IT人材白書2026」（2025年11月調査）。AIを取り入れている会社の割合（60.8%）も同じ白書から。「指示どおりにコードを書くだけ」の見直しは、ITmediaによる「Japan IT Week 秋 2026」での人材会社への取材（2026年10月）から。</p>
+
+    <p class="tip"><svg class="ic"><use href="#i-info"/></svg>この資料で「コードを書くのは、サービスづくりの一部」「身の回りの課題から作る」を大事にしているのは、このためです。2章・4章で詳しく見ていきます。</p>
+  </div>
+</section>
+
 <!-- 1-3 -->
 <section class="section" id="company">
   <div class="wrap">
@@ -425,7 +523,7 @@ p { margin: 0; }
         </div>
         <div class="body">
           <p class="pt good"><span class="mark">＋</span>1つのサービスにじっくり関われる</p>
-          <p class="pt care"><span class="mark">！</span>人気が高く、未経験の採用枠は少ない</p>
+          <p class="pt care"><span class="mark">！</span>人気が高く、未経験の採用枠は少ない。経験者が優先されやすい</p>
           <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span><strong>入りにくい</strong></span></div>
         </div>
       </article>
@@ -435,9 +533,9 @@ p { margin: 0; }
           <p class="what">お客さんから頼まれたシステムを作って納める</p>
         </div>
         <div class="body">
-          <p class="pt good"><span class="mark">＋</span>いろいろな業界・システムに関われる</p>
-          <p class="pt care"><span class="mark">！</span>納期に追われやすい</p>
-          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><strong>ふつう</strong></span></div>
+          <p class="pt good"><span class="mark">＋</span>いろいろな業界に関われる。SIer（大きな受託の会社）は未経験の採用が多い</p>
+          <p class="pt care"><span class="mark">！</span>納期に追われやすい。小さな会社は経験者を求めることも</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><strong>入りやすい</strong></span></div>
         </div>
       </article>
       <article class="company">
@@ -447,7 +545,7 @@ p { margin: 0; }
         </div>
         <div class="body">
           <p class="pt good"><span class="mark">＋</span>未経験の求人が多く、入り口になりやすい</p>
-          <p class="pt care"><span class="mark">！</span>案件によっては開発の経験が積めない。会社選びが大事</p>
+          <p class="pt care"><span class="mark">！</span>単純な作業だけの案件は、経験が積めず、AIに置き換わりやすい。会社選びが大事</p>
           <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><strong>入りやすい</strong></span></div>
         </div>
       </article>
@@ -463,7 +561,7 @@ p { margin: 0; }
         </div>
       </article>
     </div>
-    <p class="tip"><svg class="ic"><use href="#i-info"/></svg>入りやすさは目安です。地域や時期、会社によって変わります。</p>
+    <p class="tip"><svg class="ic"><use href="#i-info"/></svg>入りやすさは目安です。地域や時期、会社によって変わります。どこを目指す場合も、会社が一番困っているのは「未経験の人の力を見極めにくい」こと。学んだことを形にして見せられると、有利になります。</p>
   </div>
 </section>
 
@@ -499,8 +597,8 @@ p { margin: 0; }
         </div>
         <div class="body">
           <p class="pt good"><span class="mark">＋</span>実績がなくても応募でき、小さく始められる</p>
-          <p class="pt care"><span class="mark">！</span>単価が低く、応募者も多い。これだけで生活するのは難しい</p>
-          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><strong>入りやすい</strong></span></div>
+          <p class="pt care"><span class="mark">！</span>単価は二極化。AIを<wbr>うまく使う人は<wbr>単価を保てるが、<wbr>誰でもできる作業は<wbr>応募が多く安い</p>
+          <div class="ease"><span>未経験からの入りやすさ</span><span class="val"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><strong>ふつう</strong></span></div>
         </div>
       </article>
       <article class="company">
