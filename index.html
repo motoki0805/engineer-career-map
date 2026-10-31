@@ -74,7 +74,7 @@ main { flex: 1; display: flex; flex-direction: column; justify-content: center; 
 .band.act { grid-column: 4 / 5; color: var(--warm); border-color: var(--warm); }
 
 .chapter {
-  position: relative; display: grid; grid-row: 2 / span 4; grid-template-rows: subgrid; row-gap: 14px; padding: 26px 24px 22px; /* 題名・問い・説明・状態の段を、4枚でそろえる */
+  position: relative; display: grid; grid-row: 2 / span 4; grid-template-rows: subgrid; row-gap: 14px; padding: 26px 24px 22px; /* 題名・問い・説明・「開く」の段を、4枚でそろえる */
   background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow);
   color: var(--ink); text-decoration: none; border: 2px solid transparent;
 }
@@ -97,10 +97,7 @@ a.chapter:hover, a.chapter:focus-visible { transform: translateY(-3px); border-c
 }
 .chapter.act .q { color: var(--warm); background: var(--warm-soft); }
 .chapter .what { font-size: 15px; color: var(--muted); }
-.chapter .foot { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 14px; }
-.status { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
-.status.open { color: var(--primary); background: var(--primary-soft); }
-.status.soon { color: var(--muted); background: var(--bg); }
+.chapter .foot { display: flex; align-items: center; justify-content: flex-end; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 14px; }
 .go { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: var(--primary); }
 .go .ic { width: 18px; height: 18px; }
 
@@ -158,25 +155,25 @@ a.chapter:hover, a.chapter:focus-visible { transform: translateY(-3px); border-c
         <div class="top"><span class="tile"><svg class="ic"><use href="#i-bag"/></svg></span><div><span class="no">CHAPTER 1</span><h2>プログラマーの仕事</h2></div></div>
         <p class="q">どんな仕事があるのか？</p>
         <p class="what">作るもの（分野）、担当すること（職種）、仕事の流れ、会社やフリーランスでの働き方。</p>
-        <div class="foot"><span class="status open">公開中</span><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
+        <div class="foot"><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
       </a>
       <a class="chapter" href="chapter2.html">
         <div class="top"><span class="tile"><svg class="ic"><use href="#i-box"/></svg></span><div><span class="no">CHAPTER 2</span><h2>Webサービスができるまで</h2></div></div>
         <p class="q">どういう流れで作るのか？</p>
         <p class="what">Webサービスを例に、何を作るか決めるところから、公開して育てるところまで。</p>
-        <div class="foot"><span class="status open">公開中</span><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
+        <div class="foot"><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
       </a>
       <a class="chapter" href="chapter3.html">
         <div class="top"><span class="tile"><svg class="ic"><use href="#i-book"/></svg></span><div><span class="no">CHAPTER 3</span><h2>必要な知識</h2></div></div>
         <p class="q">何を身につけるのか？</p>
         <p class="what">学ぶ知識の全体と、それぞれを作る流れのどこで使うか。</p>
-        <div class="foot"><span class="status open">公開中</span><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
+        <div class="foot"><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
       </a>
       <a class="chapter act" href="chapter4.html">
         <div class="top"><span class="tile tone-act"><svg class="ic"><use href="#i-flag"/></svg></span><div><span class="no">CHAPTER 4</span><h2>転職までの道のり</h2></div></div>
         <p class="q">どう進めばいいのか？</p>
         <p class="what">学ぶ順番、身の回りの課題から作るポートフォリオ、転職活動の進め方。</p>
-        <div class="foot"><span class="status open">公開中</span><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
+        <div class="foot"><span class="go">開く<svg class="ic"><use href="#i-arrow"/></svg></span></div>
       </a>
     </div>
 
