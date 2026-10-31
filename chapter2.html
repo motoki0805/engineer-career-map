@@ -272,7 +272,7 @@ a.brand:hover { color: var(--primary); }
 .rc .tile .ic { width: 16px; height: 16px; }
 .rc small { font-size: 12px; font-weight: 400; color: var(--muted); }
 .rc.main { border-color: var(--primary); background: var(--primary-soft); }
-/* AIが手伝えること／人がやること：見出しを左、項目を右に置いて高さを抑える */
+/* 人がやること／AIが手伝えること（主役の人を先に置く）：見出しを左、項目を右に置いて高さを抑える */
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .duo .card { padding: 16px 22px; display: grid; grid-template-columns: 8.5em 1fr; gap: 16px; align-items: center; }
 .duo .head { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -518,19 +518,19 @@ a.brand:hover { color: var(--primary); }
       </article>
       <div class="duo">
         <article class="card">
-          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
-          <ul class="chk ai">
-            <li>似たサービスにある機能を洗い出す</li>
-            <li>聞き取ったメモを、機能の一覧に整理する</li>
-            <li>画面やデータの表の、たたき台を出す</li>
-          </ul>
-        </article>
-        <article class="card">
           <div class="head"><span class="tile"><svg class="ic"><use href="#i-user"/></svg></span><h3>人がやること</h3></div>
           <ul class="chk">
             <li>使う人に会い、本当の困りごとを見つける</li>
             <li>何を作り、何を作らないかを決める</li>
             <li>AIの案が、使う人に合っているか判断する</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
+          <ul class="chk ai">
+            <li>似たサービスにある機能を洗い出す</li>
+            <li>聞き取ったメモを、機能の一覧に整理する</li>
+            <li>画面やデータの表の、たたき台を出す</li>
           </ul>
         </article>
       </div>
@@ -569,19 +569,19 @@ a.brand:hover { color: var(--primary); }
       </article>
       <div class="duo">
         <article class="card">
-          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
-          <ul class="chk ai">
-            <li>やりたいことを伝えると、下書きを書く</li>
-            <li>エラーが出たとき、原因の候補を挙げる</li>
-            <li>分からないコードを、説明してくれる</li>
-          </ul>
-        </article>
-        <article class="card">
           <div class="head"><span class="tile"><svg class="ic"><use href="#i-user"/></svg></span><h3>人がやること</h3></div>
           <ul class="chk">
             <li>AIが書いたコードが正しいか判断する</li>
             <li>決めたとおりに、部品を組み立てる</li>
             <li>なぜこう書いたか、説明できるようにする</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
+          <ul class="chk ai">
+            <li>やりたいことを伝えると、下書きを書く</li>
+            <li>エラーが出たとき、原因の候補を挙げる</li>
+            <li>分からないコードを、説明してくれる</li>
           </ul>
         </article>
       </div>
@@ -621,19 +621,19 @@ a.brand:hover { color: var(--primary); }
       </article>
       <div class="duo">
         <article class="card">
-          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
-          <ul class="chk ai">
-            <li>試す項目の案を、たくさん出す</li>
-            <li>自動で試すための、テストのコードを書く</li>
-            <li>不具合が出たとき、原因の候補を挙げる</li>
-          </ul>
-        </article>
-        <article class="card">
           <div class="head"><span class="tile"><svg class="ic"><use href="#i-user"/></svg></span><h3>人がやること</h3></div>
           <ul class="chk">
             <li>使う人の目線で、思わぬ使い方を試す</li>
             <li>AIの案に、漏れがないか確かめる</li>
             <li>公開してよいかを決める</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
+          <ul class="chk ai">
+            <li>試す項目の案を、たくさん出す</li>
+            <li>自動で試すための、テストのコードを書く</li>
+            <li>不具合が出たとき、原因の候補を挙げる</li>
           </ul>
         </article>
       </div>
@@ -673,19 +673,19 @@ a.brand:hover { color: var(--primary); }
       </article>
       <div class="duo">
         <article class="card">
-          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
-          <ul class="chk ai">
-            <li>公開の手順を調べて、説明する</li>
-            <li>エラーの記録から、原因の候補を挙げる</li>
-            <li>問い合わせを、内容ごとに分ける</li>
-          </ul>
-        </article>
-        <article class="card">
           <div class="head"><span class="tile"><svg class="ic"><use href="#i-user"/></svg></span><h3>人がやること</h3></div>
           <ul class="chk">
             <li>止まったときに対応し、使う人に知らせる</li>
             <li>パスワードや個人情報を守る</li>
             <li>次に何を直すか、順番を決める</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIが手伝えること</h3></div>
+          <ul class="chk ai">
+            <li>公開の手順を調べて、説明する</li>
+            <li>エラーの記録から、原因の候補を挙げる</li>
+            <li>問い合わせを、内容ごとに分ける</li>
           </ul>
         </article>
       </div>
