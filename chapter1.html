@@ -65,17 +65,20 @@ p { margin: 0; }
 a.brand { color: var(--ink); text-decoration: none; }
 a.brand:hover { color: var(--primary); }
 .steps { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
-.steps li {
+/* 章の表示：できている章はリンクにして、クリックでその章の最初へ移る */
+.steps .st {
   display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: var(--muted); padding: 6px 14px 6px 6px;
+  font-size: 13px; color: var(--muted); padding: 6px 14px 6px 6px; text-decoration: none;
   border-radius: 999px; background: var(--surface); border: 1px solid var(--line);
 }
-.steps li b {
+.steps .st b {
   display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
   background: var(--line); color: var(--muted); font-family: var(--font-display); font-size: 12px;
 }
-.steps li.now { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
-.steps li.now b { background: rgba(255,255,255,.22); color: #fff; }
+.steps a.st:hover { border-color: var(--primary); color: var(--primary); }
+.steps a.st:hover b { background: var(--primary-soft); color: var(--primary); }
+.steps .st.now { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
+.steps .st.now b { background: rgba(255,255,255,.22); color: #fff; }
 
 .app-body { display: grid; grid-template-columns: 272px 1fr; min-height: 0; }
 
@@ -440,10 +443,10 @@ a.brand:hover { color: var(--primary); }
   <header class="app-top">
     <a class="brand" href="index.html" title="目次へ"><svg class="ic"><use href="#i-guide"/></svg>ITエンジニアガイド</a>
     <ol class="steps" aria-label="資料の章">
-      <li class="now"><b>1</b>プログラマーの仕事</li>
-      <li><b>2</b>Webサービスができるまで</li>
-      <li><b>3</b>必要な知識</li>
-      <li><b>4</b>転職までの道のり</li>
+      <li><a class="st now" href="chapter1.html" aria-current="page"><b>1</b>プログラマーの仕事</a></li>
+      <li><a class="st" href="chapter2.html"><b>2</b>Webサービスができるまで</a></li>
+      <li><a class="st" href="chapter3.html"><b>3</b>必要な知識</a></li>
+      <li><span class="st"><b>4</b>転職までの道のり</span></li>
     </ol>
   </header>
 
