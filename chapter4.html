@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>転職までの道のり｜ITエンジニアガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* Layout: chapter1.html と同じスライド型。上に章、左に項目メニュー、右に1項目ずつ表示し、下に前へ・次へを固定する */
+/* どの項目も「見出し → 本文（カードや図）→ 補足」の同じ骨組みで、1画面に収まるように作る */
+/* 4-1 は学ぶ順番を3章の分野で、4-2 はポートフォリオの作り方を2章の段階で並べる */
+:root {
+  color-scheme: light;
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --ink: #1f2a44;
+  --muted: #5d6880;
+  --line: #e3e8f2;
+  --primary: #3b5bdb;
+  --primary-soft: #edf1ff;
+  --warm: #f76707;
+  --warm-soft: #fff1e5;
+  --c1: #3b5bdb; --c1s: #edf1ff;
+  --c2: #0ca678; --c2s: #e3f8f0;
+  --c3: #e67700; --c3s: #fff3db;
+  --c4: #7048e8; --c4s: #f1ecff;
+  --c5: #d6336c; --c5s: #ffedf3;
+  --c6: #1098ad; --c6s: #e3f6f9;
+  /* 色の意味は1〜3章と同じ：青＝基本、紫＝AI、オレンジ＝「動く」（この章のゴール）。
+     2章の段階は 決める＝青、作る＝黄みのオレンジ、確かめる＝緑、届けて、育てる＝青緑。3章の分野は、コードを書く知識を黄みのオレンジで示す */
+  --ai: var(--c4); --ai-soft: var(--c4s);
+  --ph-d: var(--c1); --ph-ds: var(--c1s);
+  --ph-i: var(--c3); --ph-is: var(--c3s);
+  --ph-t: var(--c2); --ph-ts: var(--c2s);
+  --ph-r: var(--c6); --ph-rs: var(--c6s);
+  --radius: 18px;
+  --shadow: 0 1px 2px rgba(31, 42, 68, .05), 0 8px 24px rgba(31, 42, 68, .06);
+  --font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  word-break: auto-phrase; /* 日本語を文節で折り返し、単語の途中で改行しない */
+  overflow: hidden;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.35; margin: 0; }
+p { margin: 0; }
+.ic { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* ── 画面の枠 ── */
+.app { height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto 1fr; }
+.app-top {
+  display: flex; align-items: center; gap: 28px; padding: 12px 28px;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 700; font-size: 15px; white-space: nowrap; }
+.brand .ic { color: var(--primary); }
+a.brand { color: var(--ink); text-decoration: none; }
+a.brand:hover { color: var(--primary); }
+.steps { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+/* 章の表示：できている章はリンクにして、クリックでその章の最初へ移る */
+.steps .st {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--muted); padding: 6px 14px 6px 6px; text-decoration: none;
+  border-radius: 999px; background: var(--surface); border: 1px solid var(--line);
+}
+.steps .st b {
+  display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--line); color: var(--muted); font-family: var(--font-display); font-size: 12px;
+}
+.steps a.st:hover { border-color: var(--primary); color: var(--primary); }
+.steps a.st:hover b { background: var(--primary-soft); color: var(--primary); }
+.steps .st.now { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
+.steps .st.now b { background: rgba(255,255,255,.22); color: #fff; }
+
+.app-body { display: grid; grid-template-columns: 272px 1fr; min-height: 0; }
+
+/* 共通のアイコンタイル（色は tone-* で指定） */
+.tile { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; flex: none; background: var(--primary-soft); color: var(--primary); }
+.tone-ai { background: var(--ai-soft); color: var(--ai); }
+.tone-i { background: var(--ph-is); color: var(--ph-i); }
+.tone-t { background: var(--ph-ts); color: var(--ph-t); }
+.tone-r { background: var(--ph-rs); color: var(--ph-r); }
+.tone-fl { background: var(--warm-soft); color: var(--warm); }
+
+/* ── 左：項目メニュー ── */
+.side {
+  background: var(--surface); border-right: 1px solid var(--line); overflow-y: auto;
+  padding: 28px 16px; display: flex; flex-direction: column; gap: 18px;
+}
+.side .ch { padding-inline: 10px; }
+.eyebrow { font-family: var(--font-display); font-weight: 700; color: var(--primary); font-size: 13px; letter-spacing: .08em; }
+.side .ch-title { font-family: var(--font-display); font-weight: 900; font-size: 22px; line-height: 1.35; margin-top: 2px; }
+.side ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.side a {
+  display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px;
+  color: var(--ink); text-decoration: none; position: relative;
+}
+.side a:hover { background: var(--bg); }
+.side a:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.side a .tile { width: 36px; height: 36px; border-radius: 10px; }
+.side a .tile .ic { width: 20px; height: 20px; }
+.side a .no { display: block; font-size: 12px; color: var(--muted); line-height: 1.3; }
+.side a .t { display: block; font-weight: 700; font-size: 15px; line-height: 1.35; }
+.side a[aria-current="page"] { background: var(--primary-soft); }
+.side a[aria-current="page"] .t { color: var(--primary); }
+.side a[aria-current="page"]::before {
+  content: ""; position: absolute; left: -16px; top: 10px; bottom: 10px; width: 4px; border-radius: 0 4px 4px 0; background: var(--primary);
+}
+.side .keys { margin-top: auto; padding-inline: 10px; font-size: 12px; color: var(--muted); }
+
+/* ── 右：本文（1項目ずつ）と、下に固定した前へ・次へ ── */
+.stage { display: grid; grid-template-rows: 1fr auto; min-height: 0; }
+.main { overflow-y: auto; min-height: 0; }
+.panel { display: none; }
+.panel.on { display: block; }
+.sheet { padding: 32px 48px 28px; }
+
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.sec-head .left { display: grid; gap: 6px; }
+.badge {
+  justify-self: start; font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  color: var(--primary); background: var(--primary-soft); padding: 2px 12px; border-radius: 999px;
+}
+.sec-head h2 { font-size: 34px; font-weight: 900; }
+.sec-head .q { color: var(--muted); font-size: 16px; }
+.sec-head .aside { color: var(--muted); font-size: 15px; max-width: 30em; }
+
+/* 本文（カードや図） */
+.pbody { display: flex; flex-direction: column; gap: 16px; }
+
+/* 補足（i アイコン付きの一言） */
+.notes { margin-top: 20px; display: grid; gap: 14px; }
+.tip {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--surface); border-radius: 14px; padding: 14px 18px; font-size: 15px; color: var(--muted);
+  border: 1px solid var(--line);
+}
+.tip .ic { color: var(--primary); width: 22px; height: 22px; margin-top: 2px; }
+.tip cite { font-style: normal; font-size: 13px; white-space: nowrap; }
+
+/* 共通のカード：角の丸い白いカード。頭はアイコン＋見出し */
+.card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); min-width: 0; }
+.card .head { display: flex; align-items: center; gap: 12px; }
+.card h3 { font-size: 19px; font-weight: 700; }
+.card .head > div { min-width: 0; }
+.card .sub { display: block; font-size: 12px; color: var(--muted); line-height: 1.4; }
+.card .desc { font-size: 15px; color: var(--muted); }
+
+/* 3章の分野を示す小さなチップ */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px 2px 2px; border-radius: 999px; border: 1px solid var(--line); font-size: 13px; font-weight: 700; line-height: 1.4; white-space: nowrap; }
+.chip .tile { width: 24px; height: 24px; border-radius: 50%; }
+.chip .tile .ic { width: 14px; height: 14px; }
+.chip.plain { padding: 2px 10px; font-weight: 500; color: var(--muted); border-style: dashed; }
+
+/* ── はじめに ── */
+.hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+.hero .eyebrow { font-size: 15px; }
+.hero h1 { font-size: 48px; white-space: nowrap; font-weight: 900; margin-top: 8px; letter-spacing: .01em; }
+.hero .lead { margin-top: 18px; font-size: 17px; color: var(--muted); max-width: 30em; }
+.map { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.map a {
+  display: flex; align-items: center; gap: 14px; padding: 18px 20px; color: var(--ink); text-decoration: none;
+  border: 2px solid transparent; transition: transform .15s ease, border-color .15s ease;
+}
+.map a:hover, .map a:focus-visible { transform: translateY(-2px); border-color: var(--primary-soft); outline: none; }
+.map .no { display: block; font-size: 12px; color: var(--muted); line-height: 1.3; }
+.map strong { display: block; font-family: var(--font-display); font-size: 18px; line-height: 1.35; }
+.map .q { display: block; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* この章のゴール：Progateの修了ではなく、課題から作ったものを完成させること */
+.goal { margin-top: 32px; padding: 20px 26px; display: grid; grid-template-columns: auto auto 1fr; gap: 24px; align-items: center; }
+.goal .g { display: flex; align-items: center; gap: 14px; }
+.goal .lbl { display: block; font-size: 12px; font-weight: 700; color: var(--muted); line-height: 1.4; }
+.goal .not strong { display: block; font-family: var(--font-display); font-size: 19px; color: var(--muted); text-decoration: line-through; text-decoration-color: #b4bdd0; }
+.goal .not .tile { background: var(--bg); color: #9aa4ba; }
+.goal .to { color: #b4bdd0; }
+.goal .yes { padding: 12px 20px 12px 14px; border-radius: 14px; background: var(--warm-soft); }
+.goal .yes .lbl { color: var(--warm); }
+.goal .yes strong { display: block; font-family: var(--font-display); font-size: 19px; line-height: 1.45; }
+.goal .yes .tile { background: var(--warm); color: #fff; }
+
+/* ── 4-1 学ぶ順番：STEPを縦に並べ、右の列でProgateのコースを示す。Progateの範囲は青い帯で囲む ── */
+.roadbox { padding: 16px 24px 18px; }
+.road { position: relative; display: grid; grid-template-columns: 9em 1.3fr 1.25fr 1.25fr; }
+.road > * { position: relative; z-index: 1; }
+.road .ch { padding: 0 16px 10px; font-size: 12px; font-weight: 700; color: var(--muted); }
+.road .cell { border-top: 1px dashed var(--line); min-height: 58px; display: flex; align-items: center; padding: 7px 16px; }
+.road .sn { gap: 12px; padding-left: 0; }
+.road .sn i {
+  font-style: normal; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: none;
+  background: var(--primary); color: #fff; font-family: var(--font-display); font-weight: 900; font-size: 16px;
+}
+.road .sn span { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--primary); letter-spacing: .06em; }
+.road .what { display: block; }
+.road .what b { display: block; font-family: var(--font-display); font-size: 17px; line-height: 1.4; }
+.road .what span { display: block; font-size: 13px; color: var(--muted); line-height: 1.55; }
+.road .crs { display: flex; flex-wrap: wrap; gap: 6px; }
+.road .crs span { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 6px; background: var(--surface); color: var(--primary); border: 1px solid #cfd8fa; line-height: 1.5; }
+.road .zone { position: absolute; z-index: 0; inset: 4px 4px; border-radius: 14px; background: var(--primary-soft); }
+/* STEP 6 は Progate の外。この章のゴールなのでオレンジ */
+.road .goalrow i { background: var(--warm); }
+.road .goalrow span { color: var(--warm); }
+.road .goalrow-t b { color: var(--warm); }
+.road .out { width: 100%; padding: 8px 12px; border-radius: 10px; border: 2px dashed #fbb98a; background: var(--warm-soft); font-size: 13px; color: var(--ink); line-height: 1.5; }
+.road .out a { color: var(--warm); font-weight: 700; text-decoration: none; white-space: nowrap; }
+.road .out a:hover { text-decoration: underline; }
+
+/* ── 4-2 ポートフォリオ ── */
+.s-d { --ph: var(--ph-d); --phs: var(--ph-ds); }
+.s-i { --ph: var(--ph-i); --phs: var(--ph-is); }
+.s-t { --ph: var(--ph-t); --phs: var(--ph-ts); }
+.s-r { --ph: var(--ph-r); --phs: var(--ph-rs); }
+.pf-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.pfs { padding: 14px 20px 16px; border-top: 5px solid var(--ph); display: flex; flex-direction: column; gap: 4px; }
+.pfs .stg { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ph); line-height: 1.4; }
+.pfs .stg span { font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--muted); }
+.pfs .desc { font-size: 14px; line-height: 1.7; }
+.pf-low { display: grid; grid-template-columns: 2.1fr 1fr; gap: 14px; }
+.eval { padding: 18px 24px 20px; display: flex; flex-direction: column; gap: 14px; }
+.eval ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.eval li { padding: 12px 16px 14px; border-radius: 12px; background: var(--bg); display: grid; gap: 4px; align-content: start; }
+.eval li b { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 15px; white-space: nowrap; line-height: 1.4; }
+.eval li b i { font-style: normal; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--warm); color: #fff; font-size: 13px; flex: none; }
+.eval li span { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.aicard { padding: 18px 24px 20px; display: flex; flex-direction: column; gap: 12px; border: 2px solid var(--ai-soft); }
+.aicard h3 { color: var(--ai); }
+.aicard .vs { display: grid; gap: 8px; }
+.aicard .vs p { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; padding: 8px 12px; border-radius: 10px; }
+.aicard .vs .ic { width: 18px; height: 18px; margin-top: 2px; }
+.aicard .vs .ng { background: var(--bg); color: var(--muted); }
+.aicard .vs .ok { background: var(--ai-soft); color: var(--ink); font-weight: 500; }
+.aicard .vs .ok .ic { color: var(--ai); }
+
+/* ── 4-3 転職活動：同じ形のカードを3つ並べる ── */
+.jobs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.job { padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+.job .head .q { display: block; font-size: 13px; color: var(--muted); line-height: 1.4; }
+.job ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; flex: 1; align-content: start; }
+.job li { display: grid; grid-template-columns: 20px 1fr; gap: 2px 10px; }
+.job li .ic { width: 20px; height: 20px; color: var(--primary); margin-top: 3px; grid-row: span 2; }
+.job li b { font-size: 15px; line-height: 1.6; }
+.job li span { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* ── まとめ ── */
+.points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.point { padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+.point .tile { font-family: var(--font-display); font-weight: 900; font-size: 20px; }
+.point .desc { flex: 1; }
+.refs { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.refs a {
+  font-size: 13px; font-weight: 500; padding: 2px 10px; border-radius: 6px;
+  background: var(--bg); color: var(--primary); text-decoration: none;
+}
+.refs a:hover { background: var(--primary-soft); }
+.nextup { padding: 20px 24px; display: flex; align-items: center; gap: 16px; color: var(--ink); text-decoration: none; border: 2px solid transparent; }
+.nextup:hover { border-color: var(--primary-soft); }
+.nextup .lbl { display: block; font-size: 12px; color: var(--muted); }
+.nextup strong { display: block; font-family: var(--font-display); font-size: 19px; line-height: 1.4; }
+.nextup p { margin-left: auto; max-width: 34em; font-size: 15px; color: var(--muted); }
+
+/* 下に固定した前へ・次へ */
+.pager {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
+  padding: 12px 48px; /* 本文の左右の端にそろえる */
+  background: var(--surface); border-top: 1px solid var(--line);
+}
+.pager a {
+  display: flex; align-items: center; gap: 14px; padding: 10px 18px; border-radius: 12px; min-width: 15em;
+  border: 1px solid var(--line); color: var(--ink); text-decoration: none;
+  font-family: var(--font-display); font-weight: 700; font-size: 15px; line-height: 1.35;
+}
+.pager a .lbl { display: block; font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--muted); }
+.pager a .to { display: block; }
+.pager .prev { justify-self: start; }
+.pager .prev .ic { transform: scaleX(-1); color: var(--muted); }
+.pager .next { justify-self: end; justify-content: flex-end; text-align: right; background: var(--primary); border-color: var(--primary); color: #fff; }
+.pager .next .lbl { color: rgba(255,255,255,.8); }
+.pager .prev:hover { background: var(--bg); }
+.pager .next:hover { background: #3451c7; }
+.pager a.off { visibility: hidden; }
+.pager .count { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* 狭い画面では段を減らし、画面全体をスクロールする（主対象はPC表示） */
+@media (max-width: 960px) {
+  body { overflow: auto; }
+  .app { height: auto; }
+  .app-top { flex-wrap: wrap; gap: 12px; padding: 12px 16px; }
+  .app-body { grid-template-columns: 1fr; }
+  .side { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px; }
+  .side ol { display: flex; overflow-x: auto; }
+  .side a { white-space: nowrap; }
+  .side a[aria-current="page"]::before, .side .keys { display: none; }
+  .main { overflow: visible; }
+  .sheet { padding: 24px 16px; }
+  .sec-head { flex-wrap: wrap; }
+  .pager { position: sticky; bottom: 0; padding: 10px 16px; }
+  .pager a { min-width: 0; }
+  .hero, .points, .jobs, .pf-low, .goal { grid-template-columns: 1fr; }
+  .pf-steps, .eval ol { grid-template-columns: repeat(2, 1fr); }
+  .roadbox { overflow-x: auto; }
+  .road { min-width: 860px; }
+}
+@media (prefers-reduced-motion: reduce) { .map a { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-guide" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M13 4h5.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H13z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+  <symbol id="i-plan" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM8.5 11h7M8.5 15h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.8"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 19 17h-8l-4.5 3.5V17H5a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 5 5z"/><path d="M8 10h8M8 13h5"/></symbol>
+  <symbol id="i-test" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20M8 10.6l1.9 1.9 3.4-3.4"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9h17M9 9v10.5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18z"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M7.5 10l3 2.5-3 2.5M12.5 15.5h4"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="app-top">
+    <a class="brand" href="index.html" title="目次へ"><svg class="ic"><use href="#i-guide"/></svg>ITエンジニアガイド</a>
+    <ol class="steps" aria-label="資料の章">
+      <li><a class="st" href="chapter1.html"><b>1</b>プログラマーの仕事</a></li>
+      <li><a class="st" href="chapter2.html"><b>2</b>Webサービスができるまで</a></li>
+      <li><a class="st" href="chapter3.html"><b>3</b>必要な知識</a></li>
+      <li><a class="st now" href="chapter4.html" aria-current="page"><b>4</b>転職までの道のり</a></li>
+    </ol>
+  </header>
+
+  <div class="app-body">
+    <!-- 項目のラベル（.no）と名前（.t）は、各ページの見出しと「はじめに」の入口カードにも同じ言葉を使う -->
+    <nav class="side" aria-label="この章の項目">
+      <div class="ch">
+        <p class="eyebrow">CHAPTER 4</p>
+        <p class="ch-title">転職までの道のり</p>
+      </div>
+      <ol>
+        <li><a href="#intro"><span class="tile"><svg class="ic"><use href="#i-map"/></svg></span><span><span class="no">はじめに</span><span class="t">この章で見ること</span></span></a></li>
+        <li><a href="#order"><span class="tile"><svg class="ic"><use href="#i-route"/></svg></span><span><span class="no">4-1</span><span class="t">学ぶ順番</span></span></a></li>
+        <li><a href="#portfolio"><span class="tile tone-fl"><svg class="ic"><use href="#i-box"/></svg></span><span><span class="no">4-2</span><span class="t">ポートフォリオ</span></span></a></li>
+        <li><a href="#job"><span class="tile"><svg class="ic"><use href="#i-bag"/></svg></span><span><span class="no">4-3</span><span class="t">転職活動</span></span></a></li>
+        <li><a href="#summary"><span class="tile"><svg class="ic"><use href="#i-check"/></svg></span><span><span class="no">まとめ</span><span class="t">この章のポイント</span></span></a></li>
+      </ol>
+      <p class="keys">← → キーでも移動できます</p>
+    </nav>
+
+    <div class="stage">
+    <main class="main">
+
+<!-- はじめに -->
+<section class="panel" id="intro">
+  <div class="sheet">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">CHAPTER 4</p>
+        <h1>転職までの道のり</h1>
+        <p class="lead">3章までで、仕事の中身と、作る流れと、必要な知識が分かりました。この章では、それを自分がどう進めるかを決めます。何から学び、何を作り、どう転職活動につなげるかを見ていきましょう。</p>
+      </div>
+      <nav class="map" aria-label="この章で見ること">
+        <a class="card" href="#order"><span class="tile"><svg class="ic"><use href="#i-route"/></svg></span><span><span class="no">4-1</span><strong>学ぶ順番</strong><span class="q">何から、どの順に学ぶか</span></span></a>
+        <a class="card" href="#portfolio"><span class="tile tone-fl"><svg class="ic"><use href="#i-box"/></svg></span><span><span class="no">4-2</span><strong>ポートフォリオ</strong><span class="q">何を作り、どこを見られるか</span></span></a>
+        <a class="card" href="#job"><span class="tile"><svg class="ic"><use href="#i-bag"/></svg></span><span><span class="no">4-3</span><strong>転職活動</strong><span class="q">書類、面接、会社の見極め方</span></span></a>
+      </nav>
+    </div>
+    <div class="card goal">
+      <div class="g not"><span class="tile"><svg class="ic"><use href="#i-x"/></svg></span><div><span class="lbl">ゴールではない</span><strong>Progateを終えること</strong></div></div>
+      <svg class="ic to" aria-hidden="true"><use href="#i-arrow"/></svg>
+      <div class="g yes"><span class="tile"><svg class="ic"><use href="#i-flag"/></svg></span><div><span class="lbl">ゴール</span><strong>身の回りや前職の課題から作ったポートフォリオを、人に見せられる形で完成させる</strong></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4-1 学ぶ順番 -->
+<section class="panel" id="order">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">4-1</span>
+        <h2>学ぶ順番</h2>
+        <p class="q">何から、どの順に学ぶか</p>
+      </div>
+      <p class="aside">3章の分野を、上から順に学びます。サーバー側の言語は Ruby（Ruby on Rails）にします。</p>
+    </div>
+    <div class="pbody">
+      <div class="card roadbox">
+        <div class="road">
+          <div class="zone" style="grid-area:2/4/7/5" aria-hidden="true"></div>
+          <p class="ch">順番</p>
+          <p class="ch">やること</p>
+          <p class="ch">3章の分野</p>
+          <p class="ch">Progateのコース</p>
+
+          <div class="cell sn"><i>1</i><span>STEP 1</span></div>
+          <div class="cell"><p class="what"><b>見た目を作る</b><span>ページの文字・色・配置を書く</span></p></div>
+          <div class="cell chips"><span class="chip"><span class="tile"><svg class="ic"><use href="#i-globe"/></svg></span>土台</span><span class="chip"><span class="tile tone-i"><svg class="ic"><use href="#i-layout"/></svg></span>フロントエンド</span></div>
+          <div class="cell crs"><span>HTML &amp; CSS</span></div>
+
+          <div class="cell sn"><i>2</i><span>STEP 2</span></div>
+          <div class="cell"><p class="what"><b>動きを付ける</b><span>ボタンを押したときなどの動きを付ける</span></p></div>
+          <div class="cell chips"><span class="chip"><span class="tile tone-i"><svg class="ic"><use href="#i-layout"/></svg></span>フロントエンド</span></div>
+          <div class="cell crs"><span>JavaScript</span></div>
+
+          <div class="cell sn"><i>3</i><span>STEP 3</span></div>
+          <div class="cell"><p class="what"><b>道具に慣れる</b><span>コマンドで操作し、変更の記録を残す</span></p></div>
+          <div class="cell chips"><span class="chip"><span class="tile"><svg class="ic"><use href="#i-terminal"/></svg></span>道具とセキュリティ</span></div>
+          <div class="cell crs"><span>Command Line</span><span>Git</span></div>
+
+          <div class="cell sn"><i>4</i><span>STEP 4</span></div>
+          <div class="cell"><p class="what"><b>サーバー側を作る</b><span>データを保存し、取り出す仕組みを作る</span></p></div>
+          <div class="cell chips"><span class="chip"><span class="tile tone-i"><svg class="ic"><use href="#i-gear"/></svg></span>バックエンド</span><span class="chip"><span class="tile tone-i"><svg class="ic"><use href="#i-db"/></svg></span>データベース</span></div>
+          <div class="cell crs"><span>Ruby</span><span>SQL</span><span>Ruby on Rails</span></div>
+
+          <div class="cell sn"><i>5</i><span>STEP 5</span></div>
+          <div class="cell"><p class="what"><b>公開する・AIと作る</b><span>インターネットに出す。AIに手伝ってもらって作る</span></p></div>
+          <div class="cell chips"><span class="chip"><span class="tile"><svg class="ic"><use href="#i-cloud"/></svg></span>インフラ</span><span class="chip"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span>AIツールの使い方</span></div>
+          <div class="cell crs"><span>インフラ・クラウドサービス入門</span><span>生成AI入門</span><span>AI駆動開発</span></div>
+
+          <div class="cell sn goalrow"><i>6</i><span>STEP 6</span></div>
+          <div class="cell goalrow-t"><p class="what"><b>自分の課題で作る</b><span>身の回りや前職の困りごとを解決するものを作る</span></p></div>
+          <div class="cell chips"><span class="chip"><span class="tile"><svg class="ic"><use href="#i-plan"/></svg></span>設計</span><span class="chip plain">＋ STEP 1〜5 のすべて</span></div>
+          <div class="cell"><p class="out">Progateの外。自分で決めて作る → <a href="#portfolio">4-2 ポートフォリオ</a></p></div>
+        </div>
+      </div>
+    </div>
+    <div class="notes">
+      <p class="tip"><svg class="ic"><use href="#i-info"/></svg>Progateで学べるのは、各分野の基礎までです。何を作るかを決める「設計」はProgateのコースにないので、STEP 6で作りながら身につけます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4-2 ポートフォリオ -->
+<section class="panel" id="portfolio">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">4-2</span>
+        <h2>ポートフォリオ</h2>
+        <p class="q">何を作り、どこを見られるか</p>
+      </div>
+      <p class="aside">2章の4つの段階のとおりに、自分の課題から1つ作ります。</p>
+    </div>
+    <div class="pbody">
+      <div class="pf-steps">
+        <article class="card pfs s-d"><p class="stg">決める<span>2-2</span></p><p class="desc">身の回りや前職の困りごとを1つ選ぶ。作るものを小さく決め、画面とデータの形を書く。</p></article>
+        <article class="card pfs s-i"><p class="stg">作る<span>2-3</span></p><p class="desc">STEP 1〜5で学んだことで作る。分からないところは、AIに手伝ってもらう。</p></article>
+        <article class="card pfs s-t"><p class="stg">確かめる<span>2-4</span></p><p class="desc">自分で使ってみる。まわりの人にも触ってもらう。</p></article>
+        <article class="card pfs s-r"><p class="stg">届けて、育てる<span>2-5</span></p><p class="desc">公開して、URLで見せられるようにする。使った人の声で直す。</p></article>
+      </div>
+      <div class="pf-low">
+        <article class="card eval">
+          <div class="head"><span class="tile tone-fl"><svg class="ic"><use href="#i-test"/></svg></span><div><h3>評価されるポイント</h3><span class="sub">作ったものと一緒に、説明できるようにしておく</span></div></div>
+          <ol>
+            <li><b><i>1</i>なぜ作ったか</b><span>どんな困りごとを、誰のために解決したか</span></li>
+            <li><b><i>2</i>技術を選んだ理由</b><span>なぜその言語や仕組みを使ったか</span></li>
+            <li><b><i>3</i>苦労して解決したこと</b><span>どこでつまずき、どう乗り越えたか</span></li>
+          </ol>
+        </article>
+        <article class="card aicard">
+          <div class="head"><span class="tile tone-ai"><svg class="ic"><use href="#i-spark"/></svg></span><h3>AIで作れるから、課題が大事</h3></div>
+          <div class="vs">
+            <p class="ng"><svg class="ic"><use href="#i-x"/></svg>チュートリアルをなぞっただけの作品は、評価されにくい</p>
+            <p class="ok"><svg class="ic"><use href="#i-check"/></svg>自分の課題から作ったものと、試行錯誤の過程が評価される</p>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div class="notes">
+      <p class="tip"><svg class="ic"><use href="#i-info"/></svg><span>企業が未経験者の採用で一番困っているのは、「スキルや能力の見極めが難しい」ことです（51.1%）。ポートフォリオは、その力を見せる材料になります。<cite>出典：レバテック「IT人材白書2026」</cite></span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 4-3 転職活動 -->
+<section class="panel" id="job">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">4-3</span>
+        <h2>転職活動</h2>
+        <p class="q">書類、面接、会社の見極め方</p>
+      </div>
+      <p class="aside">どの場面でも、4-2で作ったポートフォリオが中心になります。</p>
+    </div>
+    <div class="pbody">
+      <div class="jobs">
+        <article class="card job">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-doc"/></svg></span><div><h3>書類</h3><span class="q">何を出すか</span></div></div>
+          <ul>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>履歴書・職務経歴書</b><span>前職の経験も、仕事で工夫したことを書く</span></li>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>ポートフォリオのURL</b><span>開いてすぐ触れるようにしておく</span></li>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>GitHub</b><span>コードと、作ってきた記録を見せる</span></li>
+          </ul>
+          <div class="refs"><a href="#portfolio">4-2 ポートフォリオ</a></div>
+        </article>
+        <article class="card job">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-chat"/></svg></span><div><h3>面接</h3><span class="q">何を話すか</span></div></div>
+          <ul>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>なぜエンジニアになりたいか</b><span>前職で感じた困りごとから話す</span></li>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>なぜそれを作ったか</b><span>ポートフォリオの課題と、解決したこと</span></li>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>前職をどう活かすか</b><span>現場を知っていることは強みになる</span></li>
+          </ul>
+          <div class="refs"><a href="#portfolio">4-2 ポートフォリオ</a></div>
+        </article>
+        <article class="card job">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-test"/></svg></span><div><h3>会社の見極め方</h3><span class="q">どこを見て選ぶか</span></div></div>
+          <ul>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>どんな働き方か</b><span>自社開発・受託開発・SES・社内SE</span></li>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>教えてもらえるか</b><span>研修や、先輩に聞ける仕組みがあるか</span></li>
+            <li><svg class="ic"><use href="#i-check"/></svg><b>どんな仕事をするか</b><span>単純な作業だけで終わらないか</span></li>
+          </ul>
+          <div class="refs"><a href="chapter1.html#company">1-3 会社での働き方</a></div>
+        </article>
+      </div>
+    </div>
+    <div class="notes">
+      <p class="tip"><svg class="ic"><use href="#i-info"/></svg>単純な作業だけの仕事は、AIに置き換わりやすくなっています。入ったあとに、設計やお客さんとのやり取りまで経験できるかも見ておきましょう。</p>
+    </div>
+  </div>
+</section>
+
+<!-- まとめ -->
+<section class="panel" id="summary">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">まとめ</span>
+        <h2>この章のポイント</h2>
+        <p class="q">覚えておきたい3つのこと</p>
+      </div>
+      <p class="aside">細かいことは、進めながら決めていけば大丈夫です。この3つだけ持って、始めましょう。</p>
+    </div>
+    <div class="pbody">
+      <div class="points">
+        <article class="card point">
+          <div class="head"><span class="tile">1</span><h3>Progateで、順番に学ぶ</h3></div>
+          <p class="desc">HTML &amp; CSSから始めて、Ruby on Rails、公開、AIの使い方まで。設計はProgateにないので、作りながら覚える。</p>
+          <div class="refs"><a href="#order">4-1 学ぶ順番</a></div>
+        </article>
+        <article class="card point">
+          <div class="head"><span class="tile tone-fl">2</span><h3>ゴールは、課題から作ったもの</h3></div>
+          <p class="desc">Progateを終えることではない。身の回りや前職の困りごとを解決するものを、人に見せられる形で完成させる。</p>
+          <div class="refs"><a href="#portfolio">4-2 ポートフォリオ</a></div>
+        </article>
+        <article class="card point">
+          <div class="head"><span class="tile">3</span><h3>作ったもので、力を見せる</h3></div>
+          <p class="desc">書類でも面接でも、なぜ作ったか・どう解決したかを話す。会社は、働き方と仕事の中身で選ぶ。</p>
+          <div class="refs"><a href="#job">4-3 転職活動</a><a href="#portfolio">4-2 ポートフォリオ</a></div>
+        </article>
+      </div>
+      <a class="card nextup" href="index.html">
+        <span class="tile"><svg class="ic"><use href="#i-guide"/></svg></span>
+        <div><span class="lbl">資料の最初へ</span><strong>目次に戻る</strong></div>
+        <p>これで全4章です。見直したい章は、目次からいつでも開けます。</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+    </main>
+    <nav class="pager" aria-label="前後の項目">
+      <a class="prev" href="#"><svg class="ic"><use href="#i-arrow"/></svg><span><span class="lbl">前へ</span><span class="to"></span></span></a>
+      <span class="count"></span>
+      <a class="next" href="#"><span><span class="lbl">次へ</span><span class="to"></span></span><svg class="ic"><use href="#i-arrow"/></svg></a>
+    </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+// 左のメニューで選んだ項目だけを表示する（URLの#で切り替え。←→キーでも移動）
+// 前へ・次へはスライドのように画面下の同じ位置に置き、表示中の項目に合わせて行き先を変える
+// 章の最初では前の章へ、最後の章の最後では目次へ移る
+const chapters = {
+  prev: { href: 'chapter3.html#summary', lbl: '前の章', to: '3. 必要な知識' },
+  next: { href: 'index.html', lbl: '資料の最初へ', to: '目次' },
+};
+const panels = [...document.querySelectorAll('.panel')];
+const links = [...document.querySelectorAll('.side a')];
+const main = document.querySelector('.main');
+const pager = document.querySelector('.pager');
+const label = id => links.find(a => a.getAttribute('href') === '#' + id).querySelector('.t').textContent;
+
+function setPager(a, panel, word, chapter) {
+  const dest = panel ? { href: '#' + panel.id, lbl: word, to: label(panel.id) } : chapter;
+  a.classList.toggle('off', !dest);
+  if (!dest) { a.removeAttribute('href'); a.setAttribute('aria-hidden', 'true'); return; }
+  a.href = dest.href;
+  a.removeAttribute('aria-hidden');
+  a.querySelector('.lbl').textContent = dest.lbl;
+  a.querySelector('.to').textContent = dest.to;
+}
+
+function show() {
+  const id = panels.some(p => p.id === location.hash.slice(1)) ? location.hash.slice(1) : panels[0].id;
+  const i = panels.findIndex(p => p.id === id);
+  panels.forEach(p => p.classList.toggle('on', p.id === id));
+  links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + id ? 'page' : 'false'));
+  setPager(pager.querySelector('.prev'), panels[i - 1], '前へ', chapters.prev);
+  setPager(pager.querySelector('.next'), panels[i + 1], '次へ', chapters.next);
+  pager.querySelector('.count').textContent = `${i + 1} / ${panels.length}`;
+  main.scrollTop = 0;
+}
+
+addEventListener('hashchange', show);
+show();
+
+addEventListener('keydown', e => {
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  const i = panels.findIndex(p => p.classList.contains('on'));
+  const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+  if (!dir) return;
+  const to = panels[i + dir];
+  const chapter = dir > 0 ? chapters.next : chapters.prev;
+  if (to) { e.preventDefault(); location.hash = to.id; }
+  else if (chapter) { e.preventDefault(); location.href = chapter.href; }
+});
+</script>
+</body>
+</html>

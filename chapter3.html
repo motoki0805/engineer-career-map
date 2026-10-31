@@ -190,8 +190,8 @@ a.brand:hover { color: var(--primary); }
 .chip.st { padding: 4px 14px; border: 0; background: var(--ph); color: #fff; font-family: var(--font-display); }
 
 /* ── 3-1 学ぶことの全体：8つの分野を4列×2段のカードで並べる ── */
-.fields { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 16px; }
-.field { padding: 20px 22px 18px; display: flex; flex-direction: column; gap: 8px; }
+.fields { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 14px; }
+.field { padding: 18px 22px 16px; display: flex; flex-direction: column; gap: 6px; }
 .items { margin-top: auto; display: flex; flex-wrap: wrap; gap: 6px; padding-top: 10px; border-top: 1px dashed var(--line); }
 .items span { font-size: 13px; font-weight: 500; padding: 2px 10px; border-radius: 6px; background: var(--bg); }
 
@@ -331,7 +331,7 @@ a.brand:hover { color: var(--primary); }
       <li><a class="st" href="chapter1.html"><b>1</b>プログラマーの仕事</a></li>
       <li><a class="st" href="chapter2.html"><b>2</b>Webサービスができるまで</a></li>
       <li><a class="st now" href="chapter3.html" aria-current="page"><b>3</b>必要な知識</a></li>
-      <li><span class="st"><b>4</b>転職までの道のり</span></li>
+      <li><a class="st" href="chapter4.html"><b>4</b>転職までの道のり</a></li>
     </ol>
   </header>
 
@@ -417,7 +417,7 @@ a.brand:hover { color: var(--primary); }
         <article class="card field">
           <div class="head"><span class="tile"><svg class="ic"><use href="#i-cloud"/></svg></span><h3>インフラ</h3></div>
           <p class="desc">サーバーを用意し、インターネットに公開する</p>
-          <div class="items"><span>サーバー</span><span>デプロイ（公開）</span></div>
+          <div class="items"><span>サーバーの用意</span><span>デプロイ（公開）</span></div>
         </article>
         <article class="card field">
           <div class="head"><span class="tile"><svg class="ic"><use href="#i-terminal"/></svg></span><h3>道具とセキュリティ</h3></div>
@@ -476,7 +476,7 @@ a.brand:hover { color: var(--primary); }
           <span class="cell"><i class="dot f-c" title="主に使う"></i></span>
           <span class="cell"><i class="dot f-c" title="主に使う"></i></span>
           <span class="cell"><i class="dot f-c" title="主に使う"></i></span>
-          <span class="cell"></span>
+          <span class="cell"><i class="dot sub f-b" title="ときどき使う"></i></span>
           <span class="cell"><i class="dot f-b" title="主に使う"></i></span>
           <span class="cell"><i class="dot f-a" title="主に使う"></i></span>
           <p class="rh s-t"><span><span class="n">2-4</span><b>確かめる</b></span></p>
@@ -565,7 +565,7 @@ a.brand:hover { color: var(--primary); }
 // 章の最初と最後では、前後の章へ移る（まだない章は出さない）
 const chapters = {
   prev: { href: 'chapter2.html#summary', lbl: '前の章', to: '2. Webサービスができるまで' },
-  next: { href: 'chapter3.html', lbl: '次の章', to: '3. 必要な知識' },
+  next: { href: 'chapter4.html', lbl: '次の章', to: '4. 転職までの道のり' },
 };
 const panels = [...document.querySelectorAll('.panel')];
 const links = [...document.querySelectorAll('.side a')];
