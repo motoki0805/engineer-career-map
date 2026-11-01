@@ -1,4 +1,4 @@
-// 用語の説明。本文の <dfn class="term" data-term="SE">SE</dfn> をクリックすると、画面の右から説明のサイドバーを出す
+// 用語の説明。本文の <dfn class="term" data-term="SE">SE</dfn> にカーソルを合わせると吹き出し、クリックすると右のサイドバーに説明を出す
 // 説明文はここにまとめ、各章と用語集のページ（glossary.html）で共通に使う
 // 印は、各項目（スライド1枚）と詳細モーダルの中で、最初に出てくるところだけに付ける
 const GLOSSARY_GROUPS = [
@@ -57,17 +57,37 @@ const GLOSSARY = Object.fromEntries(GLOSSARY_GROUPS.flatMap(g => g.terms).map(t 
 .term:hover, .term:focus-visible { color: var(--primary); outline: none; }
 .term.is-active { color: var(--primary); background: var(--primary-soft); text-decoration-style: solid; }
 .gl-link {
-  margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px;
-  font-family: var(--font-display); font-weight: 700; font-size: 14px; white-space: nowrap;
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px; line-height: 1.6; white-space: nowrap;
   color: var(--primary); background: var(--primary-soft); text-decoration: none; border: 1.5px solid transparent;
 }
 .gl-link:hover, .gl-link:focus-visible { border-color: var(--primary); outline: none; }
-.gl-link[aria-current="page"] { color: #fff; background: var(--primary); }
+.gl-link[aria-current="page"], .gl-link[aria-expanded="true"] { color: #fff; background: var(--primary); }
 .gl-link svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-/* 右から出るサイドバー。本文の上に重ねて出し、本文の配置は動かさない */
+/* カーソルを合わせたときの吹き出し */
+.term-tip {
+  position: fixed; z-index: 1001; max-width: 300px; padding: 12px 14px 13px;
+  background: var(--ink); color: #fff; border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(31, 42, 68, .22);
+  font-family: var(--font-body); font-size: 13.5px; font-weight: 400; line-height: 1.65; text-align: left; word-break: auto-phrase; text-wrap: pretty;
+  pointer-events: none; opacity: 0; transform: translateY(4px); transition: opacity .12s, transform .12s;
+}
+.term-tip.on { opacity: 1; transform: none; }
+.term-tip .nm { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.term-tip b { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+.term-tip .full { font-size: 12px; color: #c5cde0; }
+.term-tip .hint { display: block; margin-top: 6px; font-size: 12px; color: #c5cde0; }
+.term-tip::after {
+  content: ""; position: absolute; left: var(--ax, 50%); width: 10px; height: 10px; margin-left: -5px;
+  background: var(--ink); transform: rotate(45deg);
+}
+.term-tip.up::after { bottom: -5px; }
+.term-tip.down::after { top: -5px; }
+
+/* 右から出るサイドバー。本文の上に重ねて出し、本文の配置は動かさない。上のバー（「用語集」ボタン）は隠さない */
 .td {
-  position: fixed; z-index: 1000; top: 12px; right: 12px; bottom: 12px; width: 400px; max-width: calc(100vw - 24px);
+  position: fixed; z-index: 1000; top: 72px; right: 12px; bottom: 12px; width: 400px; max-width: calc(100vw - 24px);
   display: flex; flex-direction: column; overflow: hidden;
   background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius, 18px);
   box-shadow: 0 24px 64px rgba(31, 42, 68, .22);
@@ -75,14 +95,19 @@ const GLOSSARY = Object.fromEntries(GLOSSARY_GROUPS.flatMap(g => g.terms).map(t 
   transform: translateX(calc(100% + 24px)); visibility: hidden; transition: transform .24s ease, visibility 0s .24s;
 }
 .td.on { transform: none; visibility: visible; transition: transform .24s ease; }
-.td-top { display: flex; align-items: center; gap: 10px; padding: 14px 14px 14px 24px; border-bottom: 1px solid var(--line); }
-.td-label { font-family: var(--font-display); font-weight: 700; font-size: 13px; letter-spacing: .08em; color: var(--muted); }
+.td-top { display: flex; align-items: center; gap: 10px; min-height: 65px; padding: 14px 14px 14px 24px; border-bottom: 1px solid var(--line); }
+.td-label { font-family: var(--font-display); font-weight: 900; font-size: 18px; }
+.td-back {
+  display: inline-flex; align-items: center; gap: 4px; margin-left: -10px; padding: 6px 12px 6px 8px; border: 0; border-radius: 10px;
+  background: none; color: var(--primary); font: 700 14px var(--font-body); cursor: pointer;
+}
+.td-back:hover, .td-back:focus-visible { background: var(--primary-soft); outline: none; }
 .td-close {
   margin-left: auto; width: 36px; height: 36px; display: grid; place-items: center; flex: none;
   border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--muted); cursor: pointer;
 }
 .td-close:hover, .td-close:focus-visible { color: var(--ink); border-color: var(--muted); outline: none; }
-.td svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.td svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 .td-body { flex: 1; overflow-y: auto; padding: 24px 24px 28px; }
 .td-group {
   display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px 3px 10px; border-radius: 999px;
@@ -96,6 +121,10 @@ const GLOSSARY = Object.fromEntries(GLOSSARY_GROUPS.flatMap(g => g.terms).map(t 
   border-left: 4px solid var(--tone); font-size: 17px; line-height: 1.85; text-wrap: pretty;
 }
 .td-sub { margin: 28px 0 10px; font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--muted); }
+.td-sec + .td-sec { margin-top: 24px; }
+.td-sec .td-sub { margin-top: 0; display: flex; align-items: center; gap: 8px; color: var(--ink); }
+.td-sec .td-sub::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--tone); }
+.td-sec .td-sub small { font-family: var(--font-body); font-size: 12px; font-weight: 400; color: var(--muted); }
 .td-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .td-list button {
   width: 100%; display: flex; align-items: baseline; gap: 10px; padding: 10px 14px; text-align: left; cursor: pointer;
@@ -107,81 +136,116 @@ const GLOSSARY = Object.fromEntries(GLOSSARY_GROUPS.flatMap(g => g.terms).map(t 
 .td-foot { padding: 14px 24px; border-top: 1px solid var(--line); }
 .td-foot a { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 700; font-size: 14px; text-decoration: none; }
 .td-foot a:hover { text-decoration: underline; }
-.td.tone-1 { --tone: var(--c1); --tone-soft: var(--c1s); }
-.td.tone-2 { --tone: var(--c2); --tone-soft: var(--c2s); }
-.td.tone-3 { --tone: var(--c6); --tone-soft: var(--c6s); }
-.td.tone-4 { --tone: var(--c3); --tone-soft: var(--c3s); }
-.td.tone-5 { --tone: var(--c4); --tone-soft: var(--c4s); }
+.td .tone-1, .td.tone-1 { --tone: var(--c1); --tone-soft: var(--c1s); }
+.td .tone-2, .td.tone-2 { --tone: var(--c2); --tone-soft: var(--c2s); }
+.td .tone-3, .td.tone-3 { --tone: var(--c6); --tone-soft: var(--c6s); }
+.td .tone-4, .td.tone-4 { --tone: var(--c3); --tone-soft: var(--c3s); }
+.td .tone-5, .td.tone-5 { --tone: var(--c4); --tone-soft: var(--c4s); }
 `;
   document.head.insertAdjacentHTML('beforeend', `<style>${css}</style>`);
 
-  // 上のバーの右端に、用語集へのリンクを置く
+  const BOOK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5z"/><path d="M12 6.5v13"/></svg>';
   const top = document.querySelector('.app-top');
-  if (top) {
-    const here = location.pathname.endsWith('glossary.html');
-    top.insertAdjacentHTML('beforeend', `<a class="gl-link" href="glossary.html"${here ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5z"/><path d="M12 6.5v13"/></svg>用語集</a>`);
+
+  // 用語集のページでは、上のバーの「用語集」は今いるページを示すだけにする
+  if (location.pathname.endsWith('glossary.html')) {
+    top?.insertAdjacentHTML('beforeend', `<a class="gl-link" href="glossary.html" aria-current="page">${BOOK}用語集</a>`);
+    return;
   }
 
-  const terms = [...document.querySelectorAll('.term')];
-  if (!terms.length) return;
+  // 上のバーの「用語集」を押すと、ページは移らずに、サイドバーに一覧を出す
+  top?.insertAdjacentHTML('beforeend', `<button type="button" class="gl-link" aria-expanded="false">${BOOK}用語集</button>`);
+  const glBtn = top?.querySelector('.gl-link');
 
+  const terms = [...document.querySelectorAll('.term')];
+  const groupOf = key => GLOSSARY_GROUPS.findIndex(g => g.terms.some(t => t.key === key));
+  const termButton = t => `<li><button type="button" data-key="${t.key}"><b>${t.name}</b>${t.full ? `<small>${t.full}</small>` : ''}</button></li>`;
+
+  // サイドバー
   const td = document.createElement('aside');
   td.className = 'td';
-  td.setAttribute('aria-label', '用語の説明');
+  td.setAttribute('aria-label', '用語集');
   td.innerHTML = `
-    <div class="td-top"><span class="td-label">用語の説明</span>
-      <button type="button" class="td-close" aria-label="閉じる"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="td-top"></div>
     <div class="td-body"></div>
-    <div class="td-foot"><a href="glossary.html">用語集をすべて見る<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>`;
+    <div class="td-foot"><a href="glossary.html">用語集のページで見る<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>`;
   document.body.append(td);
+  const tdTop = td.querySelector('.td-top');
   const tdBody = td.querySelector('.td-body');
+  const CLOSE = '<button type="button" class="td-close" aria-label="閉じる"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
+  let mode = null;
   let current = null;
 
-  function open(key, from) {
-    const gi = GLOSSARY_GROUPS.findIndex(g => g.terms.some(t => t.key === key));
+  // モーダルの中から開いたときは、サイドバーと吹き出しもモーダルの中に移す（モーダルの外は前に出せないため）
+  function place(el, from) {
+    const host = from?.closest('dialog[open]') || document.body;
+    if (el.parentElement !== host) host.append(el);
+  }
+  function show() {
+    glBtn?.setAttribute('aria-expanded', String(mode === 'list'));
+    requestAnimationFrame(() => td.classList.add('on'));
+  }
+
+  function openList(from) {
+    mode = 'list';
+    place(td, from);
+    td.className = 'td' + (td.classList.contains('on') ? ' on' : '');
+    tdTop.innerHTML = `<span class="td-label">用語集</span>${CLOSE}`;
+    tdBody.innerHTML = GLOSSARY_GROUPS.map((g, i) => `
+      <section class="td-sec tone-${i + 1}">
+        <p class="td-sub">${g.title}<small>${g.terms.length}語</small></p>
+        <ul class="td-list">${g.terms.map(termButton).join('')}</ul>
+      </section>`).join('');
+    tdBody.scrollTop = 0;
+    terms.forEach(el => el.classList.remove('is-active'));
+    show();
+  }
+
+  function openTerm(key, from) {
+    const gi = groupOf(key);
     if (gi < 0) return;
     const group = GLOSSARY_GROUPS[gi];
     const g = GLOSSARY[key];
-    // モーダルの中の言葉なら、サイドバーもモーダルの中に移す（モーダルの外は触れなくなるため）
-    const host = (from || current)?.closest('dialog[open]') || document.body;
-    if (td.parentElement !== host) host.append(td);
-    td.className = `td tone-${gi + 1}`;
+    mode = 'term';
+    place(td, from || current);
+    td.className = `td tone-${gi + 1}` + (td.classList.contains('on') ? ' on' : '');
+    tdTop.innerHTML = `<button type="button" class="td-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>用語集</button>${CLOSE}`;
     tdBody.innerHTML = `
       <span class="td-group">${group.title}</span>
       <p class="td-name">${g.name}</p>
       ${g.full ? `<p class="td-full">${g.full}</p>` : ''}
       <p class="td-desc">${g.desc}</p>
       <p class="td-sub">同じまとまりの言葉</p>
-      <ul class="td-list">${group.terms.filter(t => t.key !== key).map(t =>
-        `<li><button type="button" data-key="${t.key}"><b>${t.name}</b>${t.full ? `<small>${t.full}</small>` : ''}</button></li>`).join('')}</ul>`;
+      <ul class="td-list">${group.terms.filter(t => t.key !== key).map(termButton).join('')}</ul>`;
     tdBody.scrollTop = 0;
     if (from) {
       current = from;
       terms.forEach(el => el.classList.toggle('is-active', el === from));
     }
-    requestAnimationFrame(() => td.classList.add('on'));
+    show();
   }
+
   function close() {
     if (!td.classList.contains('on')) return;
     td.classList.remove('on');
+    glBtn?.setAttribute('aria-expanded', 'false');
     terms.forEach(el => el.classList.remove('is-active'));
-    if (current?.isConnected) current.focus({ preventScroll: true });
+    if (current?.isConnected) { current.focus({ preventScroll: true }); hideTip(); }
     current = null;
+    mode = null;
   }
 
-  terms.forEach(el => {
-    el.tabIndex = 0;
-    el.setAttribute('role', 'button');
-    el.addEventListener('click', e => { e.stopPropagation(); open(el.dataset.term, el); });
-    el.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(el.dataset.term, el); }
-    });
+  glBtn?.addEventListener('click', e => {
+    e.stopPropagation();
+    if (mode === 'list' && td.classList.contains('on')) close();
+    else { current = null; openList(null); }
   });
   td.addEventListener('click', e => {
     e.stopPropagation();
     const b = e.target.closest('[data-key]');
-    if (b) open(b.dataset.key, null);
-    if (e.target.closest('.td-close')) close();
+    if (b) openTerm(b.dataset.key, null);
+    else if (e.target.closest('.td-back')) openList(current);
+    else if (e.target.closest('.td-close')) close();
   });
   // サイドバーの外をクリックしたら閉じる。Esc は、モーダルより先にサイドバーを閉じる
   document.addEventListener('click', close);
@@ -190,5 +254,47 @@ const GLOSSARY = Object.fromEntries(GLOSSARY_GROUPS.flatMap(g => g.terms).map(t 
   }, true);
   document.querySelectorAll('dialog').forEach(d => d.addEventListener('close', () => {
     if (td.parentElement === d) { close(); document.body.append(td); }
+    if (tip.parentElement === d) { hideTip(); document.body.append(tip); }
   }));
+
+  // 吹き出し。言葉の上に出す。上に入らないときは下に出す。左右は画面の中に収める
+  const tip = document.createElement('div');
+  tip.className = 'term-tip';
+  tip.setAttribute('role', 'tooltip');
+  tip.id = 'term-tip';
+  document.body.append(tip);
+
+  function showTip(el) {
+    const g = GLOSSARY[el.dataset.term];
+    if (!g) return;
+    place(tip, el);
+    tip.innerHTML = `<div class="nm"><b>${g.name}</b>${g.full ? `<span class="full">${g.full}</span>` : ''}</div>${g.desc}<span class="hint">クリックで詳しく</span>`;
+    const r = el.getBoundingClientRect();
+    const w = tip.offsetWidth, h = tip.offsetHeight, gap = 10, pad = 12;
+    const up = r.top - h - gap > pad;
+    const left = Math.min(Math.max(r.left + r.width / 2 - w / 2, pad), innerWidth - w - pad);
+    tip.style.left = left + 'px';
+    tip.style.top = (up ? r.top - h - gap : r.bottom + gap) + 'px';
+    tip.style.setProperty('--ax', (r.left + r.width / 2 - left) + 'px');
+    tip.classList.toggle('up', up);
+    tip.classList.toggle('down', !up);
+    tip.classList.add('on');
+  }
+  const hideTip = () => tip.classList.remove('on');
+
+  terms.forEach(el => {
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-describedby', 'term-tip');
+    el.addEventListener('mouseenter', () => showTip(el));
+    el.addEventListener('focus', () => showTip(el));
+    el.addEventListener('mouseleave', hideTip);
+    el.addEventListener('blur', hideTip);
+    el.addEventListener('click', e => { e.stopPropagation(); hideTip(); openTerm(el.dataset.term, el); });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hideTip(); openTerm(el.dataset.term, el); }
+    });
+  });
+  addEventListener('scroll', hideTip, true);
+  addEventListener('hashchange', hideTip);
 })();
