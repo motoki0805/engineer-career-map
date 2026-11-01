@@ -236,6 +236,19 @@ a.brand:hover { color: var(--primary); }
 .shot .device img { border: 0; border-radius: 28px; }
 .shot.phone figcaption { text-align: center; max-width: 270px; }
 .shot figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
+/* 画像はクリックで拡大する */
+.zoom { position: relative; display: block; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 12px; }
+.zoom:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.zoom .badge-zoom {
+  position: absolute; right: 8px; bottom: 8px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(31, 42, 68, .7); color: #fff;
+}
+.zoom .badge-zoom .ic { width: 16px; height: 16px; }
+.zoom:hover .badge-zoom { background: var(--primary); }
+.lightbox { padding: 0; border: 0; outline: none; border-radius: 14px; background: none; overflow: visible; cursor: zoom-out; }
+.lightbox::backdrop { background: rgba(31, 42, 68, .7); }
+.lightbox img { display: block; width: min(1200px, calc(100vw - 96px), calc((100vh - 96px) * var(--r, 1.6))); height: auto; border-radius: 14px; background: #fff; }
+.device .zoom { border-radius: 28px; }
 .m-cols { display: grid; gap: 16px; }
 .m-box { border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
 .m-box h3 { font-size: 17px; margin-bottom: 12px; }
@@ -423,6 +436,7 @@ a.brand:hover { color: var(--primary); }
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20M10.5 7.5v6M7.5 10.5h6"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18h2"/></symbol>
   <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/></symbol>
@@ -1043,6 +1057,8 @@ a.brand:hover { color: var(--primary); }
   </div>
 </dialog>
 
+<dialog class="lightbox" id="dlg-zoom" aria-label="画像の拡大"><img alt=""></dialog>
+
 <script>
 // 左のメニューで選んだ項目だけを表示する（URLの#で切り替え。←→キーでも移動）
 // 前へ・次へはスライドのように画面下の同じ位置に置き、表示中の項目に合わせて行き先を変える
@@ -1084,6 +1100,23 @@ show();
 // 詳細ボタンでモーダルを開く。外側（暗いところ）をクリックしても閉じる
 document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.open).showModal()));
 document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+
+// 画面の画像はクリックで拡大する。拡大した画像はどこをクリックしても閉じる
+const zoom = document.getElementById('dlg-zoom');
+document.querySelectorAll('.shot img').forEach(img => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'zoom'; b.setAttribute('aria-label', '画像を拡大する');
+  img.replaceWith(b);
+  b.append(img);
+  b.insertAdjacentHTML('beforeend', '<span class="badge-zoom"><svg class="ic"><use href="#i-zoom"/></svg></span>');
+  b.addEventListener('click', () => {
+    const z = zoom.querySelector('img');
+    z.src = img.src; z.alt = img.alt;
+    zoom.style.setProperty('--r', img.naturalWidth / img.naturalHeight || 1.6);
+    zoom.showModal();
+  });
+});
+zoom.addEventListener('click', () => zoom.close());
 
 addEventListener('keydown', e => {
   if (e.altKey || e.ctrlKey || e.metaKey || document.querySelector('dialog[open]')) return;

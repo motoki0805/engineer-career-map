@@ -195,7 +195,7 @@ a.brand:hover { color: var(--primary); }
 .reason b { font-family: var(--font-display); font-size: 17px; line-height: 1.4; }
 
 /* ── 2-1 全体の流れ：決める → 作る → 確かめる → 届けて、育てる。最後は「決める」に戻る ── */
-.flowbox { padding: 22px 28px 24px; }
+.flowbox { padding: 16px 28px 20px; }
 /* 左の1列は行の見出し、残りの6列に工程を1つずつ置く */
 .flow { --gap: 22px; display: grid; grid-template-columns: 6em repeat(6, 1fr); column-gap: var(--gap); row-gap: 10px; }
 .flow .rh { align-self: center; font-size: 12px; color: var(--muted); line-height: 1.4; }
@@ -221,11 +221,11 @@ a.brand:hover { color: var(--primary); }
   content: ""; position: absolute; top: 50%; right: calc(var(--gap) * -1 + 3px); width: 16px; height: 16px; transform: translateY(-50%);
   background: no-repeat center / 16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b4bdd0' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E");
 }
-.vmap { align-self: center; text-align: center; font-size: 13px; line-height: 1.45; padding: 6px 10px; border-radius: 8px; background: var(--bg); }
+.vmap { align-self: center; text-align: center; font-size: 13px; line-height: 1.6; padding: 6px 10px; border-radius: 8px; background: var(--bg); }
 .vmap.none { background: none; border: 1.5px dashed var(--ph-r); color: var(--ph-r); font-weight: 700; }
 /* 「届けて、育てる」から「決める」に戻る線（段階の見出しの上にかける） */
 .loop {
-  grid-column: 2 / -1; position: relative; height: 30px; margin-top: 18px;
+  grid-column: 2 / -1; position: relative; height: 22px; margin-top: 6px;
   margin-inline: calc((100% - var(--gap) * 5) / 6 + var(--gap) / 2); /* 「決める」「届けて、育てる」の見出しの真ん中から真ん中まで */
   border: 2px dashed var(--ph-r); border-bottom: 0; border-radius: 16px 16px 0 0;
 }
@@ -239,8 +239,20 @@ a.brand:hover { color: var(--primary); }
 }
 
 /* この章の例 */
-.example { padding: 20px 24px; display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: center; }
+.example { padding: 18px 24px; display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: center; }
 .example img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
+/* 画像はクリックで拡大する（右下の虫めがねで、押せることを示す） */
+.zoom { position: relative; display: block; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 12px; }
+.zoom:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.zoom .badge-zoom {
+  position: absolute; right: 8px; bottom: 8px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(31, 42, 68, .7); color: #fff;
+}
+.zoom .badge-zoom .ic { width: 16px; height: 16px; }
+.zoom:hover .badge-zoom { background: var(--primary); }
+.lightbox { padding: 0; border: 0; outline: none; border-radius: 14px; background: none; overflow: visible; cursor: zoom-out; }
+.lightbox::backdrop { background: rgba(31, 42, 68, .7); }
+.lightbox img { display: block; width: min(1200px, calc(100vw - 96px), calc((100vh - 96px) * var(--r, 1.6))); height: auto; border-radius: 14px; background: #fff; }
 .example .txt { display: grid; gap: 12px; }
 .trail { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .trail li { border-radius: 12px; padding: 10px 14px; background: var(--phs); font-size: 14px; line-height: 1.55; }
@@ -271,7 +283,6 @@ a.brand:hover { color: var(--primary); }
 .rc .tile { width: 28px; height: 28px; border-radius: 50%; }
 .rc .tile .ic { width: 16px; height: 16px; }
 .rc small { font-size: 12px; font-weight: 400; color: var(--muted); }
-.rc.main { border-color: var(--primary); background: var(--primary-soft); }
 /* 人がやること／AIが手伝えること（主役の人を先に置く）：見出しを左、項目を右に置いて高さを抑える */
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .duo .card { padding: 16px 22px; display: grid; grid-template-columns: 8.5em 1fr; gap: 16px; align-items: center; }
@@ -354,6 +365,7 @@ a.brand:hover { color: var(--primary); }
   <symbol id="i-plan" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM8.5 11h7M8.5 15h5"/></symbol>
   <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 6l-3 12"/></symbol>
   <symbol id="i-test" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20M8 10.6l1.9 1.9 3.4-3.4"/></symbol>
+  <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20M10.5 7.5v6M7.5 10.5h6"/></symbol>
   <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21v-8"/><path d="M12 13c0-4-2.8-6.5-7-6.5 0 4.2 2.8 6.5 7 6.5zM12 15c0-4.5 3-7.5 7.5-7.5 0 4.5-3 7.5-7.5 7.5z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.8"/></symbol>
   <symbol id="i-door" viewBox="0 0 24 24"><path d="M5 21V4.5A1.5 1.5 0 0 1 6.5 3h11A1.5 1.5 0 0 1 19 4.5V21M3 21h18"/><path d="M15 12h.01"/></symbol>
@@ -456,36 +468,36 @@ a.brand:hover { color: var(--primary); }
           <p class="stg s-r" style="grid-column:6/8">届けて、育てる<span>2-5</span></p>
 
           <span class="rh">工程</span>
-          <div class="proc s-d"><b>企画</b><span>困りごとを見つけ、何を作るか決める</span></div>
+          <div class="proc s-d"><b>企画</b><span>何を作るか決める</span></div>
           <div class="proc s-d"><b>設計</b><span>画面とデータの形を決める</span></div>
-          <div class="proc s-i"><b>実装</b><span>コードを書いて、動くものにする <span class="star">★ここ</span></span></div>
-          <div class="proc s-t"><b>テスト</b><span>決めたとおりに動くか確かめる</span></div>
-          <div class="proc s-r"><b>公開</b><span>インターネットに出し、使えるようにする</span></div>
-          <div class="proc s-r"><b>運用・改善</b><span>動き続けるよう見守り、使われ方を見て直す</span></div>
+          <div class="proc s-i"><b>実装</b><span>コードを書く <span class="star">★ここ</span></span></div>
+          <div class="proc s-t"><b>テスト</b><span>決めたとおりか確かめる</span></div>
+          <div class="proc s-r"><b>公開</b><span>インターネットに出す</span></div>
+          <div class="proc s-r"><b>運用・改善</b><span>使われ方を見て直す</span></div>
 
           <span class="rh">1章のV字では</span>
           <p class="vmap"><dfn class="term" data-term="要件定義">要件定義</dfn></p>
           <p class="vmap"><dfn class="term" data-term="基本設計">基本設計</dfn><br><dfn class="term" data-term="詳細設計">詳細設計</dfn></p>
           <p class="vmap">実装</p>
-          <p class="vmap"><dfn class="term" data-term="単体テスト">単体テスト</dfn>〜<br><dfn class="term" data-term="受け入れテスト">受け入れテスト</dfn></p>
+          <p class="vmap"><dfn class="term" data-term="単体テスト">単体テスト</dfn><br><dfn class="term" data-term="結合テスト">結合テスト</dfn><br><dfn class="term" data-term="システムテスト">システムテスト</dfn><br><dfn class="term" data-term="受け入れテスト">受け入れテスト</dfn></p>
           <p class="vmap none" style="grid-column:6/8">V字にない（この章で足す）</p>
         </div>
       </div>
       <div class="card example">
-        <img src="images/web-reservation.png" width="682" height="396" alt="会議室の予約サイトの画面。会議室Aの写真、料金、11月の予約状況のカレンダーが表示されている">
+        <button type="button" class="zoom" data-open="dlg-shot" aria-label="画像を拡大する"><img src="images/web-reservation.png" width="682" height="396" alt="会議室の予約サイトの画面。会議室Aの写真、料金、11月の予約状況のカレンダーが表示されている"><span class="badge-zoom"><svg class="ic"><use href="#i-zoom"/></svg></span></button>
         <div class="txt">
-          <div class="head"><span class="tile"><svg class="ic"><use href="#i-globe"/></svg></span><div><h3>この章の例：会議室の予約サイト</h3><span class="sub">1章の「Web」の詳細で見たサイト。各段階で、このサイトに何をしたかを見ていきます</span></div></div>
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-globe"/></svg></span><h3>この章の例：会議室の予約サイト</h3></div>
           <ol class="trail">
-            <li class="s-d"><b>決める</b>カレンダーで空きを見て予約できるサイトにする</li>
-            <li class="s-i"><b>作る</b>カレンダーと予約の仕組みをコードで書く</li>
-            <li class="s-t"><b>確かめる</b>予約が重ならないか、料金が正しいか試す</li>
-            <li class="s-r"><b>届けて、育てる</b>公開して声を聞き、取り消しの機能を足す</li>
+            <li class="s-d"><b>決める</b>空きを見て予約できるサイトにする</li>
+            <li class="s-i"><b>作る</b>カレンダーと予約をコードで書く</li>
+            <li class="s-t"><b>確かめる</b>予約の重なりや料金を試す</li>
+            <li class="s-r"><b>届けて、育てる</b>声を聞き、取り消しを足す</li>
           </ol>
         </div>
       </div>
     </div>
     <div class="notes">
-      <p class="tip"><svg class="ic"><use href="#i-info"/></svg>1章のV字は、作ってお客さんに納めるまでの流れでした。Webサービスは公開したあとも使われ続けるので、「届けて、育てる」を足して、ぐるっと回る流れとして見ます。</p>
+      <p class="tip"><svg class="ic"><use href="#i-info"/></svg>Webサービスは公開したあとも使われ続けるので、V字に「届けて、育てる」を足して、ぐるっと回る流れとして見ます。</p>
     </div>
   </div>
 </section>
@@ -512,7 +524,7 @@ a.brand:hover { color: var(--primary); }
         </ol>
         <div class="who">
           <span class="lbl">担当する職種</span>
-          <span class="rc main"><span class="tile"><svg class="ic"><use href="#i-plan"/></svg></span><dfn class="term" data-term="SE">SE</dfn><small>話を聞き、設計する</small></span>
+          <span class="rc"><span class="tile"><svg class="ic"><use href="#i-plan"/></svg></span><dfn class="term" data-term="SE">SE</dfn><small>話を聞き、設計する</small></span>
           <span class="rc"><span class="tile"><svg class="ic"><use href="#i-cal"/></svg></span><dfn class="term" data-term="PM">PM</dfn><small>予算と日程を決める</small></span>
         </div>
       </article>
@@ -563,7 +575,7 @@ a.brand:hover { color: var(--primary); }
         </ol>
         <div class="who">
           <span class="lbl">担当する職種</span>
-          <span class="rc main"><span class="tile"><svg class="ic"><use href="#i-code"/></svg></span>プログラマー<small>コードを書く</small></span>
+          <span class="rc"><span class="tile"><svg class="ic"><use href="#i-code"/></svg></span>プログラマー<small>コードを書く</small></span>
           <span class="rc"><span class="tile"><svg class="ic"><use href="#i-server"/></svg></span><dfn class="term" data-term="インフラ">インフラ</dfn><small>サーバーを用意する</small></span>
         </div>
       </article>
@@ -614,7 +626,7 @@ a.brand:hover { color: var(--primary); }
         </ol>
         <div class="who">
           <span class="lbl">担当する職種</span>
-          <span class="rc main"><span class="tile"><svg class="ic"><use href="#i-shield"/></svg></span><dfn class="term" data-term="QA">QA</dfn><small>試して、品質を保つ</small></span>
+          <span class="rc"><span class="tile"><svg class="ic"><use href="#i-shield"/></svg></span><dfn class="term" data-term="QA">QA</dfn><small>試して、品質を保つ</small></span>
           <span class="rc"><span class="tile"><svg class="ic"><use href="#i-code"/></svg></span>プログラマー<small>部品を試し、直す</small></span>
           <span class="rc"><span class="tile"><svg class="ic"><use href="#i-plan"/></svg></span><dfn class="term" data-term="SE">SE</dfn><small>全体を確かめる</small></span>
         </div>
@@ -666,7 +678,7 @@ a.brand:hover { color: var(--primary); }
         </ol>
         <div class="who">
           <span class="lbl">担当する職種</span>
-          <span class="rc main"><span class="tile"><svg class="ic"><use href="#i-server"/></svg></span><dfn class="term" data-term="インフラ">インフラ</dfn><small>公開して、見守る</small></span>
+          <span class="rc"><span class="tile"><svg class="ic"><use href="#i-server"/></svg></span><dfn class="term" data-term="インフラ">インフラ</dfn><small>公開して、見守る</small></span>
           <span class="rc"><span class="tile"><svg class="ic"><use href="#i-plan"/></svg></span><dfn class="term" data-term="SE">SE</dfn><small>次を決める</small></span>
           <span class="rc"><span class="tile"><svg class="ic"><use href="#i-code"/></svg></span>プログラマー<small>直す</small></span>
         </div>
@@ -744,6 +756,11 @@ a.brand:hover { color: var(--primary); }
   </div>
 </div>
 
+<!-- 拡大した画像。クリックかEscで閉じる -->
+<dialog class="lightbox" id="dlg-shot" style="--r: 1.722" aria-label="会議室の予約サイトの画面（拡大）">
+  <img src="images/web-reservation.png" width="682" height="396" alt="会議室の予約サイトの画面。会議室Aの写真、料金、11月の予約状況のカレンダーが表示されている">
+</dialog>
+
 <script>
 // 左のメニューで選んだ項目だけを表示する（URLの#で切り替え。←→キーでも移動）
 // 前へ・次へはスライドのように画面下の同じ位置に置き、表示中の項目に合わせて行き先を変える
@@ -782,8 +799,12 @@ function show() {
 addEventListener('hashchange', show);
 show();
 
+// 画像を押すと拡大して出す。どこを押しても閉じる
+document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.open).showModal()));
+document.querySelectorAll('.lightbox').forEach(d => d.addEventListener('click', () => d.close()));
+
 addEventListener('keydown', e => {
-  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.altKey || e.ctrlKey || e.metaKey || document.querySelector('dialog[open]')) return;
   const i = panels.findIndex(p => p.classList.contains('on'));
   const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
   if (!dir) return;
