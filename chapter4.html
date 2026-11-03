@@ -266,6 +266,81 @@ a.brand:hover { color: var(--primary); }
 .job li b { font-size: 15px; line-height: 1.6; }
 .job li span { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
+/* ── コラム 国の制度①〜③：同じ形のカード。札で「誰が使えるか」を示す。①②は3列、③は2列 ── */
+.aids { display: grid; gap: 14px; }
+.aids.c3 { grid-template-columns: repeat(3, 1fr); }
+.aids.c2 { grid-template-columns: repeat(2, 1fr); }
+.aid { padding: 13px 20px; display: flex; flex-direction: column; gap: 8px; }
+.aid .head { gap: 10px; }
+.aid .head .tile { width: 38px; height: 38px; border-radius: 10px; }
+.aid .head .tile .ic { width: 20px; height: 20px; }
+.aid .head h3 { font-size: 17px; line-height: 1.35; }
+.aid .head .sub { font-size: 12.5px; }
+.aid .who { align-self: flex-start; font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); }
+.aid .who.t { background: var(--ph-ts); color: var(--ph-t); }
+.aid .who.i { background: var(--ph-is); color: var(--ph-i); }
+.aid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.aid li { display: grid; grid-template-columns: 6.2em 1fr; gap: 10px; font-size: 13.5px; line-height: 1.6; }
+.aids.c2 .aid li { grid-template-columns: 5em 1fr; font-size: 14px; }
+.aid li b { font-weight: 700; }
+.aid li span { color: var(--muted); }
+.aid.pick { background: var(--bg); box-shadow: none; border: 1.5px dashed var(--line); }
+.aid.pick h3 { font-size: 17px; }
+.aid.pick li { grid-template-columns: 6.5em 1fr; }
+.aid.pick li span { color: var(--ink); }
+.aid.pick .rec { margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--line); font-size: 13px; font-weight: 700; color: var(--primary); }
+.src { font-size: 12px; color: var(--muted); }
+
+/* 詳細ボタンと、制度の詳しい説明を出すモーダル（<dialog> を使う。1章と同じ形） */
+.more {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px 3px 12px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--primary);
+  font: 700 12.5px var(--font-body); cursor: pointer;
+}
+.more .ic { width: 15px; height: 15px; }
+.more:hover { background: var(--primary-soft); border-color: var(--primary-soft); }
+.aid .row { display: flex; align-items: center; gap: 8px; }
+.modal {
+  width: min(1000px, calc(100vw - 64px)); max-height: calc(100vh - 64px); padding: 0; border: 0;
+  border-radius: var(--radius); background: var(--surface); color: var(--ink); box-shadow: 0 24px 64px rgba(31, 42, 68, .25);
+}
+.modal::backdrop { background: rgba(31, 42, 68, .45); }
+.modal .m-head {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 12px;
+  padding: 16px 24px; background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.modal .m-head h2 { font-size: 22px; }
+.modal .m-head .sub { display: block; font-size: 13px; color: var(--muted); }
+.modal .m-head form { margin-left: auto; }
+.modal .close {
+  width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer;
+}
+.modal .close:hover { background: var(--bg); color: var(--ink); }
+.modal .m-body { padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.m-cols { display: grid; gap: 16px; }
+.m-box { border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.m-box h3 { font-size: 17px; margin-bottom: 12px; }
+.m-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.m-list li { display: grid; grid-template-columns: 6.5em 1fr; gap: 12px; font-size: 15px; }
+.m-list b { font-weight: 700; }
+.m-list span { color: var(--muted); }
+/* 使うまでの流れ：番号つきの縦の段 */
+.m-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; counter-reset: st; }
+.m-steps li { position: relative; padding: 0 0 12px 40px; display: grid; gap: 2px; counter-increment: st; }
+.m-steps li::before {
+  content: counter(st); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--primary-soft); color: var(--primary);
+  font: 700 13px var(--font-display);
+}
+.m-steps li:not(:last-child)::after { content: ""; position: absolute; left: 12px; top: 30px; bottom: 2px; width: 2px; background: var(--line); }
+.m-steps b { font-size: 15px; }
+.m-steps span { font-size: 14px; color: var(--muted); }
+.m-notes { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; font-size: 14.5px; color: var(--muted); }
+.m-notes li::marker { color: var(--warm); }
+.m-where { display: flex; gap: 12px; font-size: 14px; color: var(--muted); padding: 0 4px; }
+.m-where b { color: var(--ink); flex: none; }
+
 /* ── まとめ ── */
 .points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .point { padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; }
@@ -306,7 +381,29 @@ a.brand:hover { color: var(--primary); }
 .pager .count { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
 /* 狭い画面では段を減らし、画面全体をスクロールする（主対象はPC表示） */
+/* コラム：体験談 */
+.story { display: grid; grid-template-columns: 5fr 7fr; gap: 14px; }
+.st-prof, .st-flow { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+.st-label { margin-top: 6px; font-size: 13px; font-weight: 700; color: var(--warm); }
+.st-why { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.st-why li { display: flex; gap: 8px; font-size: 14.5px; line-height: 1.6; }
+.st-why .ic { width: 18px; height: 18px; margin-top: 3px; color: var(--warm); }
+.st-money { font-size: 14.5px; line-height: 1.7; }
+.st-money b { color: var(--warm); }
+.tl { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 0; }
+.tl li { position: relative; display: grid; grid-template-columns: 32px 1fr; gap: 14px; padding-bottom: 14px; }
+.tl li:last-child { padding-bottom: 0; }
+.tl li::before { content: ""; position: absolute; left: 15px; top: 32px; bottom: 0; width: 2px; background: var(--line); }
+.tl li:last-child::before { display: none; }
+.tl .n { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); font-family: var(--font-display); font-weight: 700; font-size: 14px; }
+.tl .n .ic { width: 17px; height: 17px; }
+.tl li.last .n { background: var(--primary); color: #fff; }
+.tl b { display: block; font-size: 15.5px; line-height: 1.5; }
+.tl div span { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+.tl li.last b { color: var(--primary); }
+.st-lesson { margin-top: 14px; }
 @media (max-width: 960px) {
+  .story { grid-template-columns: 1fr; }
   body { overflow: auto; }
   .app { height: auto; }
   .app-top { flex-wrap: wrap; gap: 12px; padding: 12px 16px; }
@@ -320,7 +417,7 @@ a.brand:hover { color: var(--primary); }
   .sec-head { flex-wrap: wrap; }
   .pager { position: sticky; bottom: 0; padding: 10px 16px; }
   .pager a { min-width: 0; }
-  .hero, .points, .jobs, .pf-low, .goal { grid-template-columns: 1fr; }
+  .hero, .points, .jobs, .aids.c3, .aids.c2, .pf-low, .goal, .modal .m-body { grid-template-columns: 1fr; }
   .pf-steps, .eval ol { grid-template-columns: repeat(2, 1fr); }
   .roadbox { overflow-x: auto; }
   .road { min-width: 860px; }
@@ -350,6 +447,16 @@ a.brand:hover { color: var(--primary); }
   <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></symbol>
   <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18z"/></symbol>
   <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M7.5 10l3 2.5-3 2.5M12.5 15.5h4"/></symbol>
+  <symbol id="i-yen" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 7l3.5 5 3.5-5M12 12v5.5M9 12.5h6M9 15h6"/></symbol>
+  <symbol id="i-school" viewBox="0 0 24 24"><path d="M3 9l9-4.5L21 9l-9 4.5z"/><path d="M7 11v4.5c1.5 1.5 3 2 5 2s3.5-.5 5-2V11M21 9v5"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M3 14h3l3.5-2.5c.8-.5 1.8-.5 2.5.2L14 13h3a2 2 0 0 1 0 4h-6"/><path d="M3 20h4l8-1 5-3"/><circle cx="16" cy="6.5" r="2.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V20h12V9.5M10 20v-5h4v5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-health" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><rect x="4" y="8" width="16" height="11" rx="2"/><path d="M15 13.5h2"/></symbol>
+  <symbol id="i-door" viewBox="0 0 24 24"><path d="M6 21V4h12v17M3 21h18"/><circle cx="14.5" cy="12.5" r=".8" fill="currentColor"/></symbol>
   <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
 </svg>
 
@@ -376,6 +483,10 @@ a.brand:hover { color: var(--primary); }
         <li><a href="#order"><span class="tile"><svg class="ic"><use href="#i-route"/></svg></span><span><span class="no">4-1</span><span class="t">学ぶ順番</span></span></a></li>
         <li><a href="#portfolio"><span class="tile tone-fl"><svg class="ic"><use href="#i-box"/></svg></span><span><span class="no">4-2</span><span class="t">ポートフォリオ</span></span></a></li>
         <li><a href="#job"><span class="tile"><svg class="ic"><use href="#i-bag"/></svg></span><span><span class="no">4-3</span><span class="t">転職活動</span></span></a></li>
+        <li><a href="#aid"><span class="tile tone-t"><svg class="ic"><use href="#i-yen"/></svg></span><span><span class="no">コラム　国の制度①</span><span class="t">学ぶお金</span></span></a></li>
+        <li><a href="#aid-life"><span class="tile tone-t"><svg class="ic"><use href="#i-home"/></svg></span><span><span class="no">コラム　国の制度②</span><span class="t">辞めたあとの生活</span></span></a></li>
+        <li><a href="#aid-job"><span class="tile tone-t"><svg class="ic"><use href="#i-route"/></svg></span><span><span class="no">コラム　国の制度③</span><span class="t">就職活動</span></span></a></li>
+        <li><a href="#story"><span class="tile tone-fl"><svg class="ic"><use href="#i-chat"/></svg></span><span><span class="no">コラム　体験談</span><span class="t">職業訓練から就職</span></span></a></li>
         <li><a href="#summary"><span class="tile"><svg class="ic"><use href="#i-check"/></svg></span><span><span class="no">まとめ</span><span class="t">この章のポイント</span></span></a></li>
       </ol>
       <p class="keys">← → キーでも移動できます</p>
@@ -556,6 +667,184 @@ a.brand:hover { color: var(--primary); }
   </div>
 </section>
 
+<!-- コラム：学ぶお金 -->
+<section class="panel" id="aid">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">コラム　国の制度 ①</span>
+        <h2>学ぶお金</h2>
+        <p class="q">講座の費用と、学ぶ間の生活費</p>
+      </div>
+      <p class="aside">2026年11月時点の内容です。条件は変わることがあるので、使う前に必ずハローワークや市区町村の窓口で確かめてください。</p>
+    </div>
+    <div class="pbody">
+      <div class="aids c3">
+        <article class="card aid">
+          <div class="head"><span class="tile tone-t"><svg class="ic"><use href="#i-yen"/></svg></span><div><h3>教育訓練給付</h3><span class="sub">指定の講座なら、受講料の一部が戻る</span></div></div>
+          <div class="row"><span class="who t">働きながらでも</span><button type="button" class="more" data-open="dlg-kyufu">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>しくみ</b><span>先に全額払い、修了後に申請すると戻る</span></li><li><b>戻る割合</b><span>講座の種類で20%〜最大80%</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile tone-t"><svg class="ic"><use href="#i-plan"/></svg></span><div><h3>キャリアアップ支援事業</h3><span class="sub">転職を目指す講座が安くなる（経済産業省）</span></div></div>
+          <div class="row"><span class="who t">働きながら</span><button type="button" class="more" data-open="dlg-careerup">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>安くなる額</b><span>受講料の半分。転職して1年働くと、さらに5分の1</span></li><li><b>使える人</b><span>在職中で、別の会社への転職を目指す人</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile tone-t"><svg class="ic"><use href="#i-clock"/></svg></span><div><h3>教育訓練休暇給付金</h3><span class="sub">会社を休んで学ぶ間の生活費</span></div></div>
+          <div class="row"><span class="who t">働きながら</span><button type="button" class="more" data-open="dlg-kyuka">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>もらえる額</b><span>失業手当と同じくらいの額を、90〜150日分</span></li><li><b>条件</b><span>会社の制度で、30日以上続けて無給の休みを取る（2025年10月から）</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-school"/></svg></span><div><h3>公共職業訓練（ハロートレーニング）</h3><span class="sub">無料で、数か月かけて学べる</span></div></div>
+          <div class="row"><span class="who">辞めたあと</span><button type="button" class="more" data-open="dlg-kunren">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>受講料</b><span>無料（テキスト代などは自分で払う）</span></li><li><b>失業手当</b><span>訓練の間も受け取れる。終わるまで延びることもある</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile tone-i"><svg class="ic"><use href="#i-hand"/></svg></span><div><h3>求職者支援制度</h3><span class="sub">無料の訓練と、月10万円の給付金</span></div></div>
+          <div class="row"><span class="who i">雇用保険がない人</span><button type="button" class="more" data-open="dlg-kyushoku">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>使える人</b><span>失業手当を受けられない人（もらい終わった人なども）</span></li><li><b>月10万円</b><span>本人の収入が月8万円以下、世帯で月30万円以下など</span></li></ul>
+        </article>
+        <article class="card aid pick">
+          <h3>どれを使う？</h3>
+          <ul><li><b>働きながら</b><span>教育訓練給付、キャリアアップ支援事業、教育訓練休暇給付金</span></li><li><b>辞めてから</b><span>公共職業訓練</span></li><li><b>雇用保険がない</b><span>求職者支援制度</span></li></ul>
+          <p class="rec">おすすめは、働きながら学び、次の仕事が決まってから辞めること</p>
+        </article>
+      </div>
+      <p class="src">出典：厚生労働省「求職者支援制度のご案内」、ハローワーク「教育訓練給付活用セミナー」資料、経済産業省「リスキリングを通じたキャリアアップ支援事業」、雇用保険法の改正（2025年4月・10月施行）。2026年11月時点。</p>
+    </div>
+  </div>
+</section>
+
+<!-- コラム：辞めたあとの生活 -->
+<section class="panel" id="aid-life">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">コラム　国の制度 ②</span>
+        <h2>辞めたあとの生活</h2>
+        <p class="q">収入が止まる間の、お金の支え</p>
+      </div>
+      <p class="aside">2026年11月時点の内容です。条件は変わることがあるので、使う前に必ずハローワークや市区町村の窓口で確かめてください。</p>
+    </div>
+    <div class="pbody">
+      <div class="aids c3">
+        <article class="card aid">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-clock"/></svg></span><div><h3>失業手当（基本手当）</h3><span class="sub">自分から辞めると、もらえるまで待つ</span></div></div>
+          <div class="row"><span class="who">雇用保険がある人</span><button type="button" class="more" data-open="dlg-shitsugyo">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>待つ期間</b><span>自分の都合で辞めると、原則1か月はもらえない</span></li><li><b>待たずに済む</b><span>指定の講座を受けると、この1か月がなくなる</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile tone-t"><svg class="ic"><use href="#i-home"/></svg></span><div><h3>住居確保給付金</h3><span class="sub">家賃を、大家さんに直接払ってくれる</span></div></div>
+          <div class="row"><span class="who t">収入が少ない人</span><button type="button" class="more" data-open="dlg-jukyo">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>期間</b><span>原則3か月、最長9か月</span></li><li><b>上限</b><span>地域で違う（東京23区の単身は月53,700円）。収入と貯金の条件あり</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-shield"/></svg></span><div><h3>国民年金の免除</h3><span class="sub">失業の特例で、保険料が免除になる</span></div></div>
+          <div class="row"><span class="who">辞めた人</span><button type="button" class="more" data-open="dlg-nenkin">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>しくみ</b><span>前の年の収入に関係なく、免除を申請できる</span></li><li><b>申請先</b><span>市区町村の窓口。離職票などを持っていく</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-health"/></svg></span><div><h3>国民健康保険の軽減</h3><span class="sub">保険料が大きく下がる</span></div></div>
+          <div class="row"><span class="who">会社の都合で辞めた人</span><button type="button" class="more" data-open="dlg-kokuho">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>対象</b><span>倒産・解雇、契約が切れたなどで辞めた人だけ</span></li><li><b>自分の都合なら</b><span>会社の保険を続ける（任意継続）か家族の扶養と比べる</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile tone-i"><svg class="ic"><use href="#i-wallet"/></svg></span><div><h3>生活福祉資金</h3><span class="sub">社会福祉協議会から、生活費を借りられる</span></div></div>
+          <div class="row"><span class="who i">困ったとき</span><button type="button" class="more" data-open="dlg-fukushi">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>金額</b><span>生活費は単身で月15万円まで。急ぎのときは10万円まで</span></li><li><b>注意</b><span>もらえるお金ではなく借金。あとで返す</span></li></ul>
+        </article>
+        <article class="card aid pick">
+          <h3>辞める前にやること</h3>
+          <ul><li><b>相談する</b><span>ハローワークで、自分が使える制度を聞く</span></li><li><b>計算する</b><span>貯金で何か月暮らせるかを出す</span></li><li><b>決めておく</b><span>健康保険と年金をどうするか</span></li></ul>
+          
+        </article>
+      </div>
+      <p class="tip"><svg class="ic"><use href="#i-info"/></svg><span>健康保険・年金・住民税は、辞めたあとも自分で払います。収入がなくても、出ていくお金があります。</span></p>
+      <p class="src">出典：厚生労働省・各市区町村の「住居確保給付金」「国民健康保険の非自発的失業者の軽減」「国民年金の退職（失業）による特例免除」の案内、社会福祉協議会「生活福祉資金貸付制度」。2026年11月時点。</p>
+    </div>
+  </div>
+</section>
+
+<!-- コラム：就職活動 -->
+<section class="panel" id="aid-job">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">コラム　国の制度 ③</span>
+        <h2>就職活動</h2>
+        <p class="q">遠くの会社を受ける、早く決める</p>
+      </div>
+      <p class="aside">2026年11月時点の内容です。条件は変わることがあるので、使う前に必ずハローワークや市区町村の窓口で確かめてください。</p>
+    </div>
+    <div class="pbody">
+      <div class="aids c2">
+        <article class="card aid">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-route"/></svg></span><div><h3>広域求職活動費・移転費</h3><span class="sub">面接の交通費や、引っ越し代が出る</span></div></div>
+          <div class="row"><span class="who">遠くの会社を受ける</span><button type="button" class="more" data-open="dlg-koiki">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>使える人</b><span>失業手当を受けていて、ハローワークの紹介で遠くの会社を受ける人</span></li><li><b>例</b><span>稚内に住んでいて、札幌の会社の面接を受けるとき</span></li><li><b>注意</b><span>自分で応募した会社は対象外。2026年8月から使える回数に上限ができた</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile tone-t"><svg class="ic"><use href="#i-flag"/></svg></span><div><h3>再就職手当</h3><span class="sub">失業手当の残りが、まとめて出る</span></div></div>
+          <div class="row"><span class="who t">早く決まったら</span><button type="button" class="more" data-open="dlg-saishu">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>金額</b><span>残りの日数分の60〜70%</span></li><li><b>条件</b><span>失業手当を3分の1以上残して、1年以上働く見込みの仕事に就く</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile"><svg class="ic"><use href="#i-door"/></svg></span><div><h3>トライアル雇用</h3><span class="sub">まず3か月、試しに雇ってもらう</span></div></div>
+          <div class="row"><span class="who">経験が少ない人</span><button type="button" class="more" data-open="dlg-trial">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>しくみ</b><span>会社に国から助成が出るので、未経験の人を採りやすくなる</span></li><li><b>応募</b><span>ハローワークの「トライアル雇用」の求人から</span></li></ul>
+        </article>
+        <article class="card aid">
+          <div class="head"><span class="tile tone-i"><svg class="ic"><use href="#i-chat"/></svg></span><div><h3>わかものハローワーク</h3><span class="sub">若い人向けの、就職の相談窓口</span></div></div>
+          <div class="row"><span class="who i">おおむね35歳未満</span><button type="button" class="more" data-open="dlg-wakamono">詳細<svg class="ic"><use href="#i-arrow"/></svg></button></div>
+          <ul><li><b>相談</b><span>担当者が決まり、応募書類や面接の練習も手伝ってくれる</span></li><li><b>場所</b><span>全国21か所。ほかのハローワークにも若者向けの窓口（約200か所）がある</span></li></ul>
+        </article>
+      </div>
+      <p class="tip"><svg class="ic"><use href="#i-info"/></svg><span>この中の多くは、ハローワークに求職の登録をして、ハローワークの紹介で応募することが条件です。応募する前に、まず相談しましょう。</span></p>
+      <p class="src">出典：厚生労働省「わかものハローワーク」「トライアル雇用助成金」「広域求職活動費に関するお知らせ」（令和8年8月1日施行）、ハローワーク「移転費」の案内。2026年11月時点。</p>
+    </div>
+  </div>
+</section>
+
+<!-- コラム：体験談 -->
+<section class="panel" id="story">
+  <div class="sheet">
+    <div class="sec-head">
+      <div class="left">
+        <span class="badge">コラム　体験談</span>
+        <h2>工場から、職業訓練でエンジニアへ</h2>
+        <p class="q">この資料を作った人が、実際にたどった道</p>
+      </div>
+      <p class="aside">国の制度を、実際にどう組み合わせたかの一例です。お金や制度の条件は人によって違うので、自分の場合はハローワークで確かめてください。</p>
+    </div>
+    <div class="pbody">
+      <div class="story">
+        <article class="card st-prof">
+          <div class="head"><span class="tile tone-fl"><svg class="ic"><use href="#i-chat"/></svg></span><div><h3>24歳・自動車工場</h3><span class="sub">ITの経験はゼロから</span></div></div>
+          <p class="st-label">名古屋を選んだ理由</p>
+          <ul class="st-why">
+            <li><svg class="ic"><use href="#i-check"/></svg><span>職業訓練校が充実していた</span></li>
+            <li><svg class="ic"><use href="#i-check"/></svg><span>弟が名古屋の学校に通うことになり、近くにいられる安心があった</span></li>
+          </ul>
+          <p class="st-label">お金のこと</p>
+          <p class="st-money">失業手当を受けながら、職業訓練に通った。訓練を受けたことで、失業手当をもらえる期間が<b>3か月延びた</b>。</p>
+        </article>
+        <article class="card st-flow">
+          <h3>たどった順番</h3>
+          <ol class="tl">
+            <li><span class="n">1</span><div><b>自動車工場で働く</b><span>製造の仕事。プログラミングの経験はなし</span></div></li>
+            <li><span class="n">2</span><div><b>名古屋に引っ越す</b><span>職業訓練校が充実している街へ</span></div></li>
+            <li><span class="n">3</span><div><b>職業訓練（Webアプリ科・6か月）</b><span>アルゴリズム、HTML、CSS、SQL、PHP、Javaを学ぶ</span></div></li>
+            <li><span class="n">4</span><div><b>会社でOJT（1か月）</b><span>実際の会社に行って、仕事をしながら学ぶ</span></div></li>
+            <li class="last"><span class="n"><svg class="ic"><use href="#i-flag"/></svg></span><div><b>OJT先の会社に採用</b><span>そのまま今も働き続けている</span></div></li>
+          </ol>
+        </article>
+      </div>
+      <p class="tip st-lesson"><svg class="ic"><use href="#i-info"/></svg><span><b>効いたこと：</b>職業訓練の授業だけで終わらせず、自分でも勉強を続けたこと。訓練で習ったことを、自分でもくり返したのが効果がありました。</span></p>
+    </div>
+  </div>
+</section>
+
 <!-- まとめ -->
 <section class="panel" id="summary">
   <div class="sheet">
@@ -604,6 +893,347 @@ a.brand:hover { color: var(--primary); }
   </div>
 </div>
 
+
+
+<!-- 国の制度の詳細 -->
+<dialog class="modal" id="dlg-kyufu" aria-labelledby="dlg-kyufu-title">
+  <div class="m-head">
+    <span class="tile tone-t"><svg class="ic"><use href="#i-yen"/></svg></span>
+    <div><h2 id="dlg-kyufu-title">教育訓練給付</h2><span class="sub">コラム 国の制度① 学ぶお金 ／ 指定の講座なら、受講料の一部が戻る</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>講座を探す</b><span>厚生労働省の「教育訓練給付制度 検索システム」で、対象の講座を探す</span></li><li><b>使えるか確かめる</b><span>ハローワークの「支給要件照会」で、雇用保険に入っていた期間が足りるか確かめる</span></li><li><b>始める前の手続き</b><span>割合の高い講座（特定一般・専門実践）だけ。キャリアコンサルティングを受け、受講を始める1か月前までにハローワークへ届け出る</span></li><li><b>受講料を払って受ける</b><span>受講料は、まず全額自分で払う</span></li><li><b>修了後に申請する</b><span>修了の翌日から1か月以内にハローワークへ。戻るお金は自分の口座に振り込まれる</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>一般</b><span>20%（上限10万円）。雇用保険に1年以上</span></li><li><b>特定一般</b><span>40%。資格を取って就職などで50%（上限25万円）。1年以上</span></li><li><b>専門実践</b><span>50%。資格と就職で70%、給料が上がれば80%（年64万円まで）。2年以上。受講中、6か月ごとに戻る</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>Progateのような月額のサービスは対象外。プログラミングスクールなどの指定講座が対象</li><li>辞めたあとでも、辞めて1年以内なら使える</li><li>加入期間の「1年以上」「2年以上」は、初めて使う場合。前に使った人は、次に使えるまで3年あける</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク。講座は「教育訓練給付制度 検索システム」で検索</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-careerup" aria-labelledby="dlg-careerup-title">
+  <div class="m-head">
+    <span class="tile tone-t"><svg class="ic"><use href="#i-plan"/></svg></span>
+    <div><h2 id="dlg-careerup-title">リスキリングを通じたキャリアアップ支援事業</h2><span class="sub">コラム 国の制度① 学ぶお金 ／ 転職を目指す講座が安くなる（経済産業省）</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>スクールを探す</b><span>事業の公式サイトの「補助事業者検索」で、国に選ばれたスクールを探す</span></li><li><b>キャリア相談（無料）</b><span>在職中に申し込み、専門家と、どんな仕事を目指すかを決める</span></li><li><b>講座を受ける</b><span>補助の分を引いた額で受講できる。引かれ方はスクールごとに違う</span></li><li><b>転職の支援（無料）</b><span>求人の紹介や、応募書類・面接の準備を手伝ってもらう</span></li><li><b>転職して1年働く</b><span>確かめられると、受講料の5分の1分がさらに補助される</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>申し込みと最初の相談のときに、働いていること</span></li><li><b>目指すこと</b><span>別の会社への転職。同じ会社で正社員になるのは対象外</span></li><li><b>補助の額</b><span>講座の修了で受講料の1/2（上限40万円）、転職して1年で1/5（上限16万円）。合わせて最大56万円</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>補助はスクールに払われ、本人は安くなった額で受講する</li><li>講座を受けるだけが目的の人は対象外</li><li>補助の額や受付の期間は、スクールごとに違う。申し込む前にスクールに確かめる</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>各スクール。「リスキリングを通じたキャリアアップ支援事業」の公式サイトで検索</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-kyuka" aria-labelledby="dlg-kyuka-title">
+  <div class="m-head">
+    <span class="tile tone-t"><svg class="ic"><use href="#i-clock"/></svg></span>
+    <div><h2 id="dlg-kyuka-title">教育訓練休暇給付金</h2><span class="sub">コラム 国の制度① 学ぶお金 ／ 会社を休んで学ぶ間の生活費</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>会社の制度を確かめる</b><span>就業規則などに、無給で学ぶための休暇の決まりがあるか</span></li><li><b>会社と相談する</b><span>休暇を取ることを会社に認めてもらう</span></li><li><b>休暇を取る</b><span>30日以上続けて休み、講座や学校で学ぶ</span></li><li><b>ハローワークに申請する</b><span>休みの間の生活費として受け取る</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>雇用保険</b><span>入っていた期間が、合わせて5年以上</span></li><li><b>休暇</b><span>会社の制度にもとづく、30日以上続けた無給の休暇</span></li><li><b>もらえる日数</b><span>加入期間によって90日・120日・150日分</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>会社に制度がないと使えない。現実に使える人はまだ少ない</li><li>休みの間、給料は出ない</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-kunren" aria-labelledby="dlg-kunren-title">
+  <div class="m-head">
+    <span class="tile"><svg class="ic"><use href="#i-school"/></svg></span>
+    <div><h2 id="dlg-kunren-title">公共職業訓練（ハロートレーニング）</h2><span class="sub">コラム 国の制度① 学ぶお金 ／ 無料で、数か月かけて学べる</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>求職の申し込み</b><span>ハローワークで、仕事を探していることを登録する</span></li><li><b>コースを探す</b><span>窓口で相談し、説明会や見学に行く</span></li><li><b>申し込み・選考</b><span>面接や筆記の試験があるコースが多い</span></li><li><b>受講する</b><span>3か月〜2年ほど、平日の昼間に通う</span></li><li><b>就職活動</b><span>訓練校でも、応募書類や面接の準備を手伝ってくれる</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>ハローワークに求職の申し込みをしている人</span></li><li><b>お金</b><span>受講料は無料。失業手当をもらっている人は、訓練が終わるまで延びることがある。通う交通費が出ることもある</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>人気のコースは、選考で落ちることもある</li><li>始まる時期が決まっているので、申し込みは早めに</li><li>IT・Webのコースがあるかは、地域と時期で変わる</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-kyushoku" aria-labelledby="dlg-kyushoku-title">
+  <div class="m-head">
+    <span class="tile tone-i"><svg class="ic"><use href="#i-hand"/></svg></span>
+    <div><h2 id="dlg-kyushoku-title">求職者支援制度</h2><span class="sub">コラム 国の制度① 学ぶお金 ／ 無料の訓練と、月10万円の給付金</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>ハローワークで相談</b><span>求職の申し込みをして、給付金の条件に合うか確かめる</span></li><li><b>訓練を選んで申し込む</b><span>2〜6か月の訓練が多い</span></li><li><b>受講する</b><span>月に1回、ハローワークで就職の相談を受ける</span></li><li><b>給付金を受け取る</b><span>条件に合えば、毎月10万円と通う交通費</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>収入</b><span>本人が月8万円以下、世帯で月30万円以下</span></li><li><b>資産</b><span>世帯の貯金などが300万円以下。住む家のほかに土地や建物を持っていない</span></li><li><b>出席</b><span>すべての日に出る。やむを得ない欠席があっても8割以上</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>休みが多いと、給付金が止まる</li><li>給付金の条件に合わなくても、無料の訓練は受けられる</li><li>給付金とは別に、お金を借りられる制度（求職者支援資金融資）もある</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-shitsugyo" aria-labelledby="dlg-shitsugyo-title">
+  <div class="m-head">
+    <span class="tile"><svg class="ic"><use href="#i-clock"/></svg></span>
+    <div><h2 id="dlg-shitsugyo-title">失業手当（基本手当）</h2><span class="sub">コラム 国の制度② 辞めたあとの生活 ／ 自分から辞めると、もらえるまで待つ</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>離職票を受け取る</b><span>辞めたあと、会社から届く</span></li><li><b>ハローワークで手続き</b><span>求職の申し込みをして、離職票を出す</span></li><li><b>7日間待つ</b><span>だれでも最初の7日間はもらえない</span></li><li><b>給付制限</b><span>自分の都合で辞めた人は、さらに原則1か月もらえない</span></li><li><b>4週に1度ハローワークへ</b><span>就職活動をしたことを伝えて、受け取る</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>辞める前の2年間に、雇用保険に12か月以上入っていた人</span></li><li><b>もらえる日数</b><span>自分の都合で辞めた場合は90〜150日（入っていた期間による）</span></li><li><b>もらえる額</b><span>前の給料のおよそ5〜8割（上限あり）</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>5年の間に3回以上、自分の都合で辞めていると、待つ期間が3か月になる</li><li>受け取っている間にアルバイトをしたら、必ず申告する</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-jukyo" aria-labelledby="dlg-jukyo-title">
+  <div class="m-head">
+    <span class="tile tone-t"><svg class="ic"><use href="#i-home"/></svg></span>
+    <div><h2 id="dlg-jukyo-title">住居確保給付金</h2><span class="sub">コラム 国の制度② 辞めたあとの生活 ／ 家賃を、大家さんに直接払ってくれる</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>市区町村の窓口に相談</b><span>「自立相談支援機関」が窓口。まず電話や来所で相談する</span></li><li><b>申請する</b><span>家賃の契約書や、収入・貯金が分かるものを出す</span></li><li><b>審査</b><span>条件に合うか確かめられる</span></li><li><b>家賃が払われる</b><span>大家さんや不動産会社に、直接振り込まれる</span></li><li><b>求職活動を続ける</b><span>月に何回か、相談や応募をしたことを報告する</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>辞めて2年以内の人。または収入が大きく減った人</span></li><li><b>お金</b><span>世帯の収入と貯金が、地域ごとの基準より少ない</span></li><li><b>求職活動</b><span>ハローワークへの申し込みなど、まじめに仕事を探すこと</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>上限の額や基準は、地域と世帯の人数で違う</li><li>家賃の安い家に引っ越す費用を補助する仕組みもある（2025年4月から）</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>住んでいる市区町村の自立相談支援機関</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-nenkin" aria-labelledby="dlg-nenkin-title">
+  <div class="m-head">
+    <span class="tile"><svg class="ic"><use href="#i-shield"/></svg></span>
+    <div><h2 id="dlg-nenkin-title">国民年金の免除</h2><span class="sub">コラム 国の制度② 辞めたあとの生活 ／ 失業の特例で、保険料が免除になる</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>国民年金に切り替える</b><span>会社を辞めたら、14日以内に市区町村で手続きする</span></li><li><b>免除を申請する</b><span>離職票や雇用保険受給資格者証のコピーを持っていく</span></li><li><b>結果が届く</b><span>日本年金機構から、免除になったかが届く</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>会社を辞めた人。自分の都合で辞めた人も対象</span></li><li><b>審査</b><span>本人の収入は除いて考える。配偶者や世帯主の収入は審査される</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>免除された期間の分、将来の年金は減る。10年以内なら、あとから納められる（追納）</li><li>年度ごとに申請が必要</li><li>払わずに放っておくと、けがや病気のときの障害年金が受け取れないことがある</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>住んでいる市区町村の国民年金の窓口、または年金事務所</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-kokuho" aria-labelledby="dlg-kokuho-title">
+  <div class="m-head">
+    <span class="tile"><svg class="ic"><use href="#i-health"/></svg></span>
+    <div><h2 id="dlg-kokuho-title">国民健康保険の軽減</h2><span class="sub">コラム 国の制度② 辞めたあとの生活 ／ 保険料が大きく下がる</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>健康保険を選ぶ</b><span>国民健康保険・会社の保険を続ける（任意継続）・家族の扶養のどれにするか決める</span></li><li><b>国民健康保険に入る</b><span>辞めて14日以内に市区町村で手続きする</span></li><li><b>軽減を届け出る</b><span>ハローワークでもらう雇用保険受給資格者証を持っていく</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>倒産・解雇など、または契約期間が終わったなどで辞めた人。65歳未満</span></li><li><b>しくみ</b><span>前の年の給料を3割として計算するので、保険料が大きく下がる</span></li><li><b>期間</b><span>辞めた翌日の月から、翌年度の終わりまで</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>自分の都合で辞めた人は対象外</li><li>任意継続：会社の保険を最長2年続けられる。会社が払っていた分も自分で払うので、保険料はおよそ2倍。辞めて20日以内に手続き</li><li>家族の扶養：収入の条件に合えば、保険料はかからない</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>住んでいる市区町村の国民健康保険の窓口</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-fukushi" aria-labelledby="dlg-fukushi-title">
+  <div class="m-head">
+    <span class="tile tone-i"><svg class="ic"><use href="#i-wallet"/></svg></span>
+    <div><h2 id="dlg-fukushi-title">生活福祉資金</h2><span class="sub">コラム 国の制度② 辞めたあとの生活 ／ 社会福祉協議会から、生活費を借りられる</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>窓口に相談</b><span>市区町村の自立相談支援機関で、まず相談する</span></li><li><b>申し込む</b><span>住んでいる地域の社会福祉協議会に申し込む</span></li><li><b>審査</b><span>返せる見込みや、ほかの制度を使えるかを確かめられる</span></li><li><b>借りる</b><span>決まった額が振り込まれる</span></li><li><b>返す</b><span>決まった期間のあと、少しずつ返す</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>種類</b><span>緊急小口資金：急ぎで10万円まで。総合支援資金：生活費を単身で月15万円まで（原則3か月）</span></li><li><b>使える人</b><span>収入が少なく、ほかから借りるのが難しい世帯。辞めた人は、ハローワークへの申し込みも必要</span></li><li><b>利子</b><span>保証人がいれば無利子。いなければ年1.5%</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>あとで返す借金。借りる前に、もらえる制度（住居確保給付金など）を先に確かめる</li><li>審査や振り込みに時間がかかることがある</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>住んでいる市区町村の社会福祉協議会</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-koiki" aria-labelledby="dlg-koiki-title">
+  <div class="m-head">
+    <span class="tile"><svg class="ic"><use href="#i-route"/></svg></span>
+    <div><h2 id="dlg-koiki-title">広域求職活動費・移転費</h2><span class="sub">コラム 国の制度③ 就職活動 ／ 面接の交通費や、引っ越し代が出る</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>遠くの求人の紹介を受ける</b><span>ハローワークで、住んでいる所から遠い会社の求人を紹介してもらう</span></li><li><b>面接に行く前に申請</b><span>広域求職活動費の手続きを先にしておく</span></li><li><b>面接を受ける</b><span>面接に行ったことを、会社に証明してもらう</span></li><li><b>戻って申請する</b><span>交通費と宿泊費が出る</span></li><li><b>決まったら移転費</b><span>引っ越す前に申請すると、引っ越し代や交通費が出る</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>失業手当を受けられる人</span></li><li><b>求人</b><span>ハローワークが紹介した、住んでいる所から遠い会社。距離の条件がある</span></li><li><b>回数</b><span>2026年8月から上限あり。失業手当の日数を30で割った回数（90日なら3回）</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>自分で応募した会社や、求人サイトから応募した会社は対象外</li><li>面接先の会社が交通費を出してくれる場合は、その分が引かれる</li><li>申請の期限が短いので、行く前にハローワークで流れを確かめる</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-saishu" aria-labelledby="dlg-saishu-title">
+  <div class="m-head">
+    <span class="tile tone-t"><svg class="ic"><use href="#i-flag"/></svg></span>
+    <div><h2 id="dlg-saishu-title">再就職手当</h2><span class="sub">コラム 国の制度③ 就職活動 ／ 失業手当の残りが、まとめて出る</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>失業手当の手続き</b><span>ハローワークで、失業手当の手続きをしておく</span></li><li><b>就職が決まる</b><span>7日間の待期のあとに決まること</span></li><li><b>申請する</b><span>働き始めてから1か月以内に、ハローワークへ</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>残りの日数</b><span>3分の2以上残っていれば70%、3分の1以上なら60%</span></li><li><b>仕事</b><span>1年以上働く見込みがあること</span></li><li><b>自分の都合で辞めた人</b><span>最初の1か月の間に決まった場合は、ハローワークなどの紹介で決まったときだけ</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>前の会社に戻る場合は対象外</li><li>過去3年以内に再就職手当をもらっている人は対象外</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-trial" aria-labelledby="dlg-trial-title">
+  <div class="m-head">
+    <span class="tile"><svg class="ic"><use href="#i-door"/></svg></span>
+    <div><h2 id="dlg-trial-title">トライアル雇用</h2><span class="sub">コラム 国の制度③ 就職活動 ／ まず3か月、試しに雇ってもらう</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>ハローワークで相談</b><span>自分が対象になるか確かめる</span></li><li><b>求人に応募する</b><span>「トライアル雇用」の求人に、ハローワークの紹介で応募する</span></li><li><b>3か月働く</b><span>給料をもらいながら、仕事と職場に慣れる</span></li><li><b>続けて働く</b><span>会社と本人の両方が合えば、そのまま正社員などで働く</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>経験が少ない、仕事をしていない期間が長いなど、就職が難しい事情がある人</span></li><li><b>応募</b><span>ハローワークなどの紹介で応募すること</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>3か月で終わることもある</li><li>助成は会社に出るもので、本人に手当は出ない。給料は普通にもらえる</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>ハローワーク</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal" id="dlg-wakamono" aria-labelledby="dlg-wakamono-title">
+  <div class="m-head">
+    <span class="tile tone-i"><svg class="ic"><use href="#i-chat"/></svg></span>
+    <div><h2 id="dlg-wakamono-title">わかものハローワーク</h2><span class="sub">コラム 国の制度③ 就職活動 ／ 若い人向けの、就職の相談窓口</span></div>
+    <form method="dialog"><button class="close" aria-label="閉じる">×</button></form>
+  </div>
+  <div class="m-body">
+    <section class="m-box">
+      <h3>使うまでの流れ</h3>
+      <ol class="m-steps"><li><b>予約して行く</b><span>近くのわかものハローワークか、若者向けの窓口へ</span></li><li><b>担当者と相談</b><span>やりたいこと、できることを一緒に整理する</span></li><li><b>応募の準備</b><span>履歴書・職務経歴書の書き方や、面接の練習</span></li><li><b>紹介・応募</b><span>求人を紹介してもらい、応募する</span></li><li><b>就職したあとも</b><span>働き始めてからの悩みも相談できる</span></li></ol>
+    </section>
+    <div class="m-cols">
+      <section class="m-box">
+        <h3>条件</h3>
+        <ul class="m-list"><li><b>使える人</b><span>おおむね35歳未満で、正社員を目指す人</span></li><li><b>お金</b><span>無料</span></li></ul>
+      </section>
+      <section class="m-box">
+        <h3>気をつけること</h3>
+        <ul class="m-notes"><li>近くになければ、ハローワークの「わかもの支援コーナー・窓口」（約200か所）でも同じように相談できる</li><li>学生や、卒業して3年以内の人は「新卒応援ハローワーク」が窓口のこともある</li></ul>
+      </section>
+      <p class="m-where"><b>窓口</b>わかものハローワーク、ハローワークのわかもの支援コーナー</p>
+    </div>
+  </div>
+</dialog>
+<!-- /国の制度の詳細 -->
+
 <script>
 // 左のメニューで選んだ項目だけを表示する（URLの#で切り替え。←→キーでも移動）
 // 前へ・次へはスライドのように画面下の同じ位置に置き、表示中の項目に合わせて行き先を変える
@@ -642,8 +1272,12 @@ function show() {
 addEventListener('hashchange', show);
 show();
 
+// 詳細ボタンでモーダルを開く。外側（暗いところ）をクリックしても閉じる
+document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.open).showModal()));
+document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+
 addEventListener('keydown', e => {
-  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.altKey || e.ctrlKey || e.metaKey || document.querySelector('dialog[open]')) return;
   const i = panels.findIndex(p => p.classList.contains('on'));
   const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
   if (!dir) return;
